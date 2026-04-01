@@ -215,7 +215,7 @@ export default function MembersPage() {
                 boxShadow: activeView === v ? '0 2px 8px rgba(226,106,27,0.25)' : 'none',
               }}
             >
-              {v === 'hierarchy' ? 'Org Hierarchy' : 'By Groups'}
+              {v === 'hierarchy' ? 'Organization' : 'By Groups'}
             </button>
           ))}
         </div>
