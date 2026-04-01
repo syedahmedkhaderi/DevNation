@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight, Code2, Brain, Globe, Smartphone, Calendar, Star, Instagram, Linkedin, ChevronRight, Mic, Trophy, GitBranch, Users } from 'lucide-react'
+import { ArrowRight, Code2, Brain, Globe, Smartphone, Calendar, Instagram, Linkedin, ChevronRight, Mic, Trophy, GitBranch, Users } from 'lucide-react'
 import { useData } from '../context/DataContext'
 
 const groups = [
@@ -179,18 +179,17 @@ export default function HomePage() {
 
       {/* ── Vision & Mission ──────────────────────────────────── */}
       <section className="py-32 relative overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
-        {/* Decorative background letters */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-          <span className="font-display font-black uppercase" style={{ fontSize: '30vw', color: 'rgba(255,255,255,0.012)', letterSpacing: '-0.06em', lineHeight: 1 }}>DN</span>
-        </div>
+        {/* Subtle center glow */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(226,106,27,0.04) 0%, transparent 70%)' }} />
 
         <div className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+          {/* Section label */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="flex items-center gap-4 mb-20"
+            className="flex items-center gap-4 mb-24"
           >
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] font-mono"
               style={{ background: 'rgba(226,106,27,0.1)', color: 'var(--brand)', border: '1px solid rgba(226,106,27,0.18)' }}>
@@ -200,55 +199,75 @@ export default function HomePage() {
             <div className="flex-1 h-px" style={{ background: 'var(--border-subtle)' }} />
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-6">
-            {/* Vision card */}
+          {/* Editorial two-column layout */}
+          <div className="grid lg:grid-cols-2 gap-0">
+
+            {/* Vision */}
             <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="relative rounded-2xl overflow-hidden group"
-              style={{ background: 'linear-gradient(135deg, rgba(226,106,27,0.1) 0%, rgba(226,106,27,0.02) 60%, transparent 100%)', border: '1px solid rgba(226,106,27,0.2)' }}
+              className="relative pr-0 lg:pr-16 pb-16 lg:pb-0 group"
             >
-              {/* Top accent stripe */}
-              <div className="h-0.5" style={{ background: 'linear-gradient(90deg, var(--brand), rgba(226,106,27,0.2), transparent)' }} />
-              {/* Decorative number */}
-              <div className="absolute bottom-2 right-4 font-display font-black select-none leading-none" style={{ fontSize: '9rem', color: 'rgba(226,106,27,0.07)' }}>01</div>
-              {/* Ambient glow on hover */}
-              <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full blur-[100px] pointer-events-none transition-opacity duration-700 opacity-0 group-hover:opacity-100" style={{ background: 'rgba(226,106,27,0.08)' }} />
-              <div className="relative p-10 lg:p-14">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-8 font-mono"
-                  style={{ background: 'rgba(226,106,27,0.12)', color: 'var(--brand)', border: '1px solid rgba(226,106,27,0.22)' }}>
-                  <Star className="w-3 h-3" /> Vision
-                </span>
-                <p className="text-2xl lg:text-3xl font-display font-bold leading-snug" style={{ color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
+              {/* Left accent bar */}
+              <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-full transition-all duration-500 group-hover:opacity-100 opacity-80"
+                style={{ background: 'linear-gradient(to bottom, var(--brand), rgba(226,106,27,0.2))' }} />
+
+              <div className="pl-8">
+                {/* Number + label row */}
+                <div className="flex items-center gap-3 mb-8">
+                  <span className="font-mono text-4xl font-black leading-none" style={{ color: 'rgba(226,106,27,0.25)' }}>01</span>
+                  <div className="h-px flex-1" style={{ background: 'rgba(226,106,27,0.15)' }} />
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em]" style={{ color: 'var(--brand)' }}>Vision</span>
+                </div>
+
+                {/* Vision text as a headline statement */}
+                <p className="font-display font-bold leading-tight"
+                  style={{ fontSize: 'clamp(1.6rem, 3vw, 2.5rem)', color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
                   {clubInfo.vision}
                 </p>
+
+                {/* Bottom rule */}
+                <div className="mt-10 h-px w-16" style={{ background: 'rgba(226,106,27,0.3)' }} />
               </div>
             </motion.div>
 
-            {/* Mission card — offset down on large screens */}
+            {/* Vertical divider (desktop only) */}
+            <div className="hidden lg:block absolute left-1/2 top-24 bottom-0 w-px" style={{ background: 'var(--border-subtle)' }} />
+
+            {/* Mission */}
             <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.25 }}
-              className="relative rounded-2xl overflow-hidden group lg:mt-14"
-              style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)' }}
+              className="relative group"
             >
-              <div className="h-0.5" style={{ background: 'linear-gradient(90deg, var(--accent), rgba(176,125,79,0.2), transparent)' }} />
-              <div className="absolute bottom-2 right-4 font-display font-black select-none leading-none" style={{ fontSize: '9rem', color: 'rgba(255,255,255,0.025)' }}>02</div>
-              <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full blur-[100px] pointer-events-none transition-opacity duration-700 opacity-0 group-hover:opacity-100" style={{ background: 'rgba(176,125,79,0.06)' }} />
-              <div className="relative p-10 lg:p-14">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-8 font-mono"
-                  style={{ background: 'rgba(176,125,79,0.1)', color: 'var(--accent)', border: '1px solid rgba(176,125,79,0.2)' }}>
-                  <Code2 className="w-3 h-3" /> Mission
-                </span>
-                <p className="text-xl lg:text-2xl font-display font-semibold leading-relaxed" style={{ color: 'var(--text-secondary)', letterSpacing: '-0.02em' }}>
+              {/* Mobile top border */}
+              <div className="lg:hidden h-px mb-16" style={{ background: 'var(--border-subtle)' }} />
+
+              {/* Left accent bar */}
+              <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-full opacity-80 transition-opacity duration-500 group-hover:opacity-100"
+                style={{ background: 'linear-gradient(to bottom, var(--accent), rgba(176,125,79,0.15))' }} />
+
+              <div className="pl-8 lg:pl-16">
+                {/* Number + label row */}
+                <div className="flex items-center gap-3 mb-8">
+                  <span className="font-mono text-4xl font-black leading-none" style={{ color: 'rgba(176,125,79,0.25)' }}>02</span>
+                  <div className="h-px flex-1" style={{ background: 'rgba(176,125,79,0.15)' }} />
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em]" style={{ color: 'var(--accent)' }}>Mission</span>
+                </div>
+
+                <p className="font-display font-semibold leading-relaxed"
+                  style={{ fontSize: 'clamp(1.15rem, 2vw, 1.5rem)', color: 'var(--text-secondary)', letterSpacing: '-0.02em' }}>
                   {clubInfo.mission}
                 </p>
+
+                <div className="mt-10 h-px w-16" style={{ background: 'rgba(176,125,79,0.3)' }} />
               </div>
             </motion.div>
+
           </div>
         </div>
       </section>
@@ -285,30 +304,34 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 whileHover={{ y: -4 }}
-                className="group relative rounded-lg p-8 cursor-pointer overflow-hidden transition-all duration-300"
-                style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}
+                className="group relative rounded-lg p-8 cursor-pointer overflow-hidden transition-all duration-300 flex flex-col"
+                style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', minHeight: 260 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = `${g.accent}40`
-                  e.currentTarget.style.boxShadow = `0 8px 32px ${g.accent}10`
+                  e.currentTarget.style.borderColor = `${g.accent}45`
+                  e.currentTarget.style.boxShadow = `0 8px 32px ${g.accent}12`
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.borderColor = 'var(--border-subtle)'
                   e.currentTarget.style.boxShadow = 'none'
                 }}
               >
+                {/* Radial glow on hover */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{ background: `radial-gradient(circle at 0% 100%, ${g.accent}08 0%, transparent 60%)` }}
+                  style={{ background: `radial-gradient(circle at 0% 100%, ${g.accent}0a 0%, transparent 60%)` }}
                 />
+                {/* Top accent line */}
+                <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ background: `linear-gradient(90deg, ${g.accent}, transparent)` }} />
 
                 <div className="flex items-start justify-between mb-8">
                   <div
                     className="w-10 h-10 rounded-md flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                    style={{ background: `${g.accent}12`, border: `1px solid ${g.accent}20` }}
+                    style={{ background: `${g.accent}12`, border: `1px solid ${g.accent}25` }}
                   >
                     <g.icon className="w-5 h-5" style={{ color: g.accent }} />
                   </div>
-                  <span className="font-mono text-3xl font-black transition-colors duration-300 group-hover:opacity-10" style={{ color: 'rgba(255,255,255,0.03)' }}>{g.num}</span>
+                  <span className="font-mono text-3xl font-black select-none" style={{ color: 'rgba(255,255,255,0.18)' }}>{g.num}</span>
                 </div>
 
                 <div className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] font-mono" style={{ color: g.accent }}>{g.abbr}</div>
@@ -381,7 +404,7 @@ export default function HomePage() {
                   }}
                 >
                   <div className="h-44 overflow-hidden">
-                    <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <img src={event.image} alt={event.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   </div>
                   <div className="p-5">
                     <div className="flex items-center gap-2 mb-3">
