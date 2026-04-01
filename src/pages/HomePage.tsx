@@ -549,9 +549,7 @@ export default function HomePage() {
               className="text-4xl lg:text-6xl font-display font-bold leading-tight"
               style={{ color: "var(--text-primary)", letterSpacing: "-0.04em" }}
             >
-              4 Specialized
-              <br />
-              <span className="text-gradient">Groups</span>
+              4 Specialized <span className="text-gradient">Domains</span>
             </h2>
           </motion.div>
 
