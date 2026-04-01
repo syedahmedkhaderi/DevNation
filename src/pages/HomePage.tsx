@@ -223,9 +223,9 @@ export default function HomePage() {
                 </div>
 
                 {/* Vision text as a headline statement */}
-                <p className="font-display font-bold leading-tight"
-                  style={{ fontSize: 'clamp(1.6rem, 3vw, 2.5rem)', color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
-                  {clubInfo.vision}
+                <p className="font-display font-bold text-[24px]"
+                  style={{ color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
+                  "To be the leading technology community at UDST, fostering innovation, creativity, and technical excellence, empowering students to shape the digital future of Qatar and beyond"
                 </p>
 
                 {/* Bottom rule */}
