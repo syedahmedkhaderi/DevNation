@@ -1,0 +1,423 @@
+export interface Member {
+  id: string
+  name: string
+  position: string
+  department: string
+  image: string
+  linkedin?: string
+  instagram?: string
+  whatsapp?: string
+  level: number
+  parentId?: string
+  group?: string
+}
+
+export interface Event {
+  id: string
+  title: string
+  date: string
+  endDate?: string
+  location: string
+  description: string
+  image: string
+  category: string
+  registrationLink?: string
+  qrCode?: string
+  teams: Team[]
+  isOpen: boolean
+  tags: string[]
+}
+
+export interface Team {
+  id: string
+  name: string
+  description: string
+  slots: number
+  members: string[]
+  whatsappLink?: string
+  skills: string[]
+}
+
+export interface Project {
+  id: string
+  title: string
+  description: string
+  image: string
+  category: string
+  techStack: string[]
+  githubLink?: string
+  liveLink?: string
+  team: string[]
+  status: 'active' | 'completed' | 'planning'
+  year: number
+  featured: boolean
+}
+
+export interface Resource {
+  id: string
+  title: string
+  description: string
+  type: 'article' | 'video' | 'course' | 'tool' | 'book' | 'workshop'
+  category: string
+  link: string
+  tags: string[]
+  addedBy: string
+  featured: boolean
+  thumbnail?: string
+}
+
+export interface ClubInfo {
+  name: string
+  tagline: string
+  vision: string
+  mission: string
+  instagram: string
+  linkedin: string
+  whatsapp: string
+  email: string
+  foundedYear: number
+  university: string
+}
+
+export const defaultClubInfo: ClubInfo = {
+  name: 'UDST DevNation',
+  tagline: 'Building the Next Generation of Tech Leaders',
+  vision: 'To be the leading technology community at UDST, fostering innovation, creativity, and technical excellence — empowering students to shape the digital future of Qatar and beyond.',
+  mission: 'We cultivate a vibrant ecosystem where students learn, build, and connect. Through hands-on workshops, hackathons, industry partnerships, and collaborative projects, DevNation bridges the gap between academic knowledge and real-world technical skills across Data Structures, AI/ML, Web Development, and App Development.',
+  instagram: 'https://instagram.com/udst.devnation',
+  linkedin: 'https://linkedin.com/company/udst-devnation',
+  whatsapp: 'https://wa.me/97412345678',
+  email: 'devnation@udst.edu.qa',
+  foundedYear: 2022,
+  university: 'University of Doha for Science and Technology',
+}
+
+export const defaultMembers: Member[] = [
+  {
+    id: 'm1',
+    name: 'Ahmed Al-Rashid',
+    position: 'Founder & Director',
+    department: 'Leadership',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmed&backgroundColor=b6e3f4',
+    linkedin: 'https://linkedin.com/in/ahmed-alrashid',
+    level: 0,
+  },
+  {
+    id: 'm2',
+    name: 'Sara Al-Mansouri',
+    position: 'Co-Founder & Strategic Lead',
+    department: 'Leadership',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sara&backgroundColor=ffdfbf',
+    linkedin: 'https://linkedin.com/in/sara-almansouri',
+    level: 1,
+    parentId: 'm1',
+  },
+  {
+    id: 'm3',
+    name: 'Khalid Al-Thani',
+    position: 'Head of DSA',
+    department: 'DSA',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Khalid&backgroundColor=c0aede',
+    linkedin: 'https://linkedin.com/in/khalid-althani',
+    level: 2,
+    parentId: 'm2',
+    group: 'DSA',
+  },
+  {
+    id: 'm4',
+    name: 'Fatima Hassan',
+    position: 'Head of AI/ML',
+    department: 'AI/ML',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Fatima&backgroundColor=ffd5dc',
+    linkedin: 'https://linkedin.com/in/fatima-hassan',
+    level: 2,
+    parentId: 'm2',
+    group: 'AI/ML',
+  },
+  {
+    id: 'm5',
+    name: 'Omar Al-Kuwari',
+    position: 'Head of Web Development',
+    department: 'Web Development',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Omar&backgroundColor=b6e3f4',
+    linkedin: 'https://linkedin.com/in/omar-alkuwari',
+    level: 2,
+    parentId: 'm2',
+    group: 'Web Development',
+  },
+  {
+    id: 'm6',
+    name: 'Noor Al-Mutawa',
+    position: 'Head of App Development',
+    department: 'App Development',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Noor&backgroundColor=ffdfbf',
+    linkedin: 'https://linkedin.com/in/noor-almutawa',
+    level: 2,
+    parentId: 'm2',
+    group: 'App Development',
+  },
+  {
+    id: 'm7',
+    name: 'Mariam Al-Sulaiti',
+    position: 'Media Team Lead',
+    department: 'Media',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mariam&backgroundColor=ffd5dc',
+    linkedin: 'https://linkedin.com/in/mariam-alsulaiti',
+    instagram: 'https://instagram.com/mariam.media',
+    level: 1,
+    parentId: 'm1',
+  },
+  {
+    id: 'm8',
+    name: 'Yousef Al-Baker',
+    position: 'Events & Programs Lead',
+    department: 'Events',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Yousef&backgroundColor=c0aede',
+    linkedin: 'https://linkedin.com/in/yousef-albaker',
+    level: 1,
+    parentId: 'm1',
+  },
+  {
+    id: 'm9',
+    name: 'Lina Al-Emadi',
+    position: 'DSA Core Member',
+    department: 'DSA',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Lina&backgroundColor=b6e3f4',
+    level: 3,
+    parentId: 'm3',
+    group: 'DSA',
+  },
+  {
+    id: 'm10',
+    name: 'Hamad Al-Jaber',
+    position: 'AI/ML Core Member',
+    department: 'AI/ML',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Hamad&backgroundColor=c0aede',
+    level: 3,
+    parentId: 'm4',
+    group: 'AI/ML',
+  },
+  {
+    id: 'm11',
+    name: 'Reem Al-Mohannadi',
+    position: 'Web Dev Core Member',
+    department: 'Web Development',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Reem&backgroundColor=ffd5dc',
+    level: 3,
+    parentId: 'm5',
+    group: 'Web Development',
+  },
+  {
+    id: 'm12',
+    name: 'Saad Al-Qahtani',
+    position: 'App Dev Core Member',
+    department: 'App Development',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Saad&backgroundColor=ffdfbf',
+    level: 3,
+    parentId: 'm6',
+    group: 'App Development',
+  },
+]
+
+export const defaultEvents: Event[] = [
+  {
+    id: 'e1',
+    title: 'DevNation Hackathon 2025',
+    date: '2025-05-15',
+    endDate: '2025-05-17',
+    location: 'UDST Campus, Building C',
+    description: 'A 48-hour hackathon where teams build innovative solutions to real-world problems. Open to all UDST students. Prizes worth QAR 15,000!',
+    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format&fit=crop',
+    category: 'Hackathon',
+    registrationLink: 'https://forms.google.com',
+    isOpen: true,
+    tags: ['Hackathon', 'Competition', 'Innovation'],
+    teams: [
+      {
+        id: 't1',
+        name: 'Team Alpha',
+        description: 'Building an AI-powered healthcare solution',
+        slots: 4,
+        members: ['Alice', 'Bob'],
+        whatsappLink: 'https://wa.me/97412345678',
+        skills: ['AI/ML', 'Python', 'React'],
+      },
+      {
+        id: 't2',
+        name: 'Team Beta',
+        description: 'Smart city traffic management system',
+        slots: 4,
+        members: ['Charlie'],
+        whatsappLink: 'https://wa.me/97412345679',
+        skills: ['IoT', 'Data Analysis', 'Flutter'],
+      },
+      {
+        id: 't3',
+        name: 'Team Gamma',
+        description: 'EdTech platform for Arabic learners',
+        slots: 3,
+        members: [],
+        whatsappLink: 'https://wa.me/97412345680',
+        skills: ['Web Dev', 'UI/UX', 'Node.js'],
+      },
+    ],
+  },
+  {
+    id: 'e2',
+    title: 'AI/ML Workshop Series',
+    date: '2025-04-20',
+    location: 'UDST Innovation Lab',
+    description: 'A comprehensive 3-part workshop series covering machine learning fundamentals, neural networks, and practical AI applications using Python.',
+    image: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&auto=format&fit=crop',
+    category: 'Workshop',
+    registrationLink: 'https://forms.google.com',
+    isOpen: true,
+    tags: ['AI', 'Machine Learning', 'Python', 'Workshop'],
+    teams: [],
+  },
+  {
+    id: 'e3',
+    title: 'Web Dev Bootcamp',
+    date: '2025-03-10',
+    endDate: '2025-03-12',
+    location: 'Online (Zoom)',
+    description: 'A 3-day intensive bootcamp covering React, TypeScript, and modern web development practices. Perfect for beginners and intermediate developers.',
+    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&auto=format&fit=crop',
+    category: 'Bootcamp',
+    isOpen: false,
+    tags: ['Web Development', 'React', 'TypeScript'],
+    teams: [],
+  },
+]
+
+export const defaultProjects: Project[] = [
+  {
+    id: 'p1',
+    title: 'DevNation Club Portal',
+    description: 'The official club management portal built by DevNation members. Features event management, member directory, and resource sharing.',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop',
+    category: 'Web Development',
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js'],
+    githubLink: 'https://github.com/udst-devnation/portal',
+    liveLink: 'https://devnation.udst.edu.qa',
+    team: ['Omar Al-Kuwari', 'Reem Al-Mohannadi', 'Khalid Al-Thani'],
+    status: 'active',
+    year: 2025,
+    featured: true,
+  },
+  {
+    id: 'p2',
+    title: 'Smart Campus Navigator',
+    description: 'An AI-powered indoor navigation app for UDST campus that helps students find classrooms, offices, and facilities using their smartphones.',
+    image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop',
+    category: 'App Development',
+    techStack: ['Flutter', 'Firebase', 'TensorFlow Lite', 'Dart'],
+    githubLink: 'https://github.com/udst-devnation/campus-nav',
+    team: ['Noor Al-Mutawa', 'Saad Al-Qahtani'],
+    status: 'active',
+    year: 2025,
+    featured: true,
+  },
+  {
+    id: 'p3',
+    title: 'Arabic Sentiment Analysis API',
+    description: 'A machine learning API for Arabic text sentiment analysis, trained on Qatari social media data. Achieves 94% accuracy on benchmark tests.',
+    image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&auto=format&fit=crop',
+    category: 'AI/ML',
+    techStack: ['Python', 'FastAPI', 'HuggingFace', 'PyTorch'],
+    githubLink: 'https://github.com/udst-devnation/arabic-sentiment',
+    team: ['Fatima Hassan', 'Hamad Al-Jaber'],
+    status: 'completed',
+    year: 2024,
+    featured: true,
+  },
+  {
+    id: 'p4',
+    title: 'DSA Visualizer',
+    description: 'An interactive web app that visualizes data structures and algorithms step-by-step, helping students understand complex CS concepts.',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop',
+    category: 'DSA',
+    techStack: ['React', 'D3.js', 'JavaScript', 'CSS Animations'],
+    githubLink: 'https://github.com/udst-devnation/dsa-visualizer',
+    liveLink: 'https://dsa.devnation.qa',
+    team: ['Khalid Al-Thani', 'Lina Al-Emadi'],
+    status: 'completed',
+    year: 2024,
+    featured: false,
+  },
+]
+
+export const defaultResources: Resource[] = [
+  {
+    id: 'r1',
+    title: 'The Complete React Developer Course',
+    description: 'Comprehensive course covering React from fundamentals to advanced patterns including hooks, context, and performance optimization.',
+    type: 'course',
+    category: 'Web Development',
+    link: 'https://udemy.com',
+    tags: ['React', 'JavaScript', 'Frontend'],
+    addedBy: 'Omar Al-Kuwari',
+    featured: true,
+    thumbnail: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&auto=format&fit=crop',
+  },
+  {
+    id: 'r2',
+    title: 'Machine Learning with Python - Full Course',
+    description: 'Learn machine learning concepts and implement algorithms from scratch using Python, NumPy, and scikit-learn.',
+    type: 'course',
+    category: 'AI/ML',
+    link: 'https://freecodecamp.org',
+    tags: ['Machine Learning', 'Python', 'AI'],
+    addedBy: 'Fatima Hassan',
+    featured: true,
+    thumbnail: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&auto=format&fit=crop',
+  },
+  {
+    id: 'r3',
+    title: 'CS50: Introduction to Computer Science',
+    description: "Harvard's legendary intro CS course, free and available online. Perfect starting point for any aspiring developer.",
+    type: 'course',
+    category: 'DSA',
+    link: 'https://cs50.harvard.edu',
+    tags: ['C', 'Python', 'Algorithms', 'Beginner'],
+    addedBy: 'Khalid Al-Thani',
+    featured: true,
+    thumbnail: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&auto=format&fit=crop',
+  },
+  {
+    id: 'r4',
+    title: 'Flutter Documentation',
+    description: 'The official Flutter documentation with tutorials, API reference, and cookbook recipes for building cross-platform mobile apps.',
+    type: 'article',
+    category: 'App Development',
+    link: 'https://flutter.dev/docs',
+    tags: ['Flutter', 'Dart', 'Mobile', 'Cross-platform'],
+    addedBy: 'Noor Al-Mutawa',
+    featured: false,
+    thumbnail: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&auto=format&fit=crop',
+  },
+  {
+    id: 'r5',
+    title: 'Figma for Developers',
+    description: 'Learn to use Figma for UI/UX design, prototyping, and collaboration with design teams.',
+    type: 'video',
+    category: 'Design',
+    link: 'https://youtube.com',
+    tags: ['Figma', 'UI/UX', 'Design', 'Prototyping'],
+    addedBy: 'Mariam Al-Sulaiti',
+    featured: false,
+    thumbnail: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&auto=format&fit=crop',
+  },
+  {
+    id: 'r6',
+    title: 'LeetCode Problem Sets',
+    description: 'Curated DSA problem sets organized by topic and difficulty. Essential for technical interview preparation.',
+    type: 'tool',
+    category: 'DSA',
+    link: 'https://leetcode.com',
+    tags: ['Algorithms', 'Data Structures', 'Interview Prep'],
+    addedBy: 'Lina Al-Emadi',
+    featured: false,
+    thumbnail: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=400&auto=format&fit=crop',
+  },
+]
