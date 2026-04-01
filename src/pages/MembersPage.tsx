@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Users, Plus, Pencil, Trash2, X, Linkedin, Instagram, MessageCircle, ChevronDown, ChevronUp } from 'lucide-react'
+import { Users, Plus, Pencil, Trash2, X, Linkedin, Instagram, MessageCircle, ChevronDown, ChevronUp, RefreshCw, Link as LinkIcon } from 'lucide-react'
 import { useData } from '../context/DataContext'
 import { useAdmin } from '../context/AdminContext'
 import { Member } from '../data/defaults'
@@ -41,26 +42,27 @@ function MemberCard({
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      className="member-card p-4 flex flex-col items-center text-center relative group"
+      whileHover={{ y: -3, transition: { duration: 0.2 } }}
+      className="member-card p-4 flex flex-col items-center text-center relative group cursor-default transition-all duration-200"
       style={{ width: size === 'lg' ? 200 : size === 'md' ? 170 : 150 }}
+      onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 8px 24px rgba(226,106,27,0.08)')}
+      onMouseLeave={e => (e.currentTarget.style.boxShadow = '')}
     >
       {isAdmin && (
         <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-          <button onClick={onEdit} className="p-1.5 rounded-md transition-all" style={{ color: 'var(--text-muted)' }}>
+          <button onClick={onEdit} className="p-1.5 rounded-md transition-all hover:bg-white/10" style={{ color: 'var(--text-muted)' }}>
             <Pencil className="w-3 h-3" />
           </button>
-          <button onClick={onDelete} className="p-1.5 rounded-md transition-all" style={{ color: 'var(--text-muted)' }}>
+          <button onClick={onDelete} className="p-1.5 rounded-md transition-all hover:bg-red-500/10 hover:text-red-400" style={{ color: 'var(--text-muted)' }}>
             <Trash2 className="w-3 h-3" />
           </button>
         </div>
       )}
 
-      {/* Dot indicator */}
       <div className="absolute top-3 left-3 w-1.5 h-1.5 rounded-full" style={{ background: lc.dot }} />
 
-      {/* Avatar */}
       <div
-        className={`${imgSize} rounded-full mb-3 overflow-hidden shrink-0`}
+        className={`${imgSize} rounded-full mb-3 overflow-hidden shrink-0 transition-transform duration-300 group-hover:scale-105`}
         style={{ boxShadow: `0 0 0 2px var(--bg-primary), 0 0 0 4px ${lc.ring}` }}
       >
         <img
@@ -159,10 +161,16 @@ function LevelSection({ label, color, members, isAdmin, onEdit, onDelete, size =
 export default function MembersPage() {
   const { members, addMember, updateMember, removeMember } = useData()
   const { isAdmin } = useAdmin()
+  const [searchParams] = useSearchParams()
   const [showModal, setShowModal] = useState(false)
   const [editing, setEditing] = useState<Member | null>(null)
   const [activeView, setActiveView] = useState<'hierarchy' | 'groups'>('hierarchy')
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({})
+
+  useEffect(() => {
+    const view = searchParams.get('view')
+    if (view === 'groups') setActiveView('groups')
+  }, [searchParams])
 
   const handleDelete = (id: string) => {
     if (!window.confirm('Remove this member?')) return
@@ -195,7 +203,7 @@ export default function MembersPage() {
               </p>
             </div>
             {isAdmin && (
-              <button onClick={() => { setEditing(null); setShowModal(true) }} className="btn-primary flex items-center gap-2 self-start mt-2">
+              <button onClick={() => { setEditing(null); setShowModal(true) }} className="btn-primary flex items-center gap-2 self-start mt-2 transition-transform duration-200 hover:scale-[1.03]">
                 <Plus className="w-4 h-4" /> Add Member
               </button>
             )}
@@ -273,8 +281,10 @@ export default function MembersPage() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.07 }}
-                  className="rounded-lg overflow-hidden"
+                  className="rounded-lg overflow-hidden transition-all duration-300"
                   style={{ background: 'var(--bg-secondary)', border: `1px solid ${meta.border}` }}
+                  onMouseEnter={e => (e.currentTarget.style.boxShadow = `0 4px 20px ${meta.accent}10`)}
+                  onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
                 >
                   <button
                     onClick={() => toggleGroup(group)}
@@ -376,6 +386,103 @@ export default function MembersPage() {
   )
 }
 
+const avatarStyles = [
+  { id: 'initials-orange', label: 'Initials', buildUrl: (name: string) => `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=e26a1b&textColor=ffffff` },
+  { id: 'initials-dark', label: 'Initials (dark)', buildUrl: (name: string) => `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=1a1a1a&textColor=e26a1b` },
+  { id: 'avataaars', label: 'Avatar', buildUrl: (name: string) => `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}` },
+  { id: 'lorelei', label: 'Lorelei', buildUrl: (name: string) => `https://api.dicebear.com/7.x/lorelei/svg?seed=${encodeURIComponent(name)}` },
+  { id: 'pixel-art', label: 'Pixel', buildUrl: (name: string) => `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(name)}` },
+  { id: 'thumbs', label: 'Thumbs', buildUrl: (name: string) => `https://api.dicebear.com/7.x/thumbs/svg?seed=${encodeURIComponent(name)}` },
+]
+
+function AvatarPicker({ name, value, onChange }: { name: string; value: string; onChange: (url: string) => void }) {
+  const [showCustom, setShowCustom] = useState(false)
+  const [customUrl, setCustomUrl] = useState(value || '')
+  const seedName = name || 'Member'
+
+  const isCustom = value && !avatarStyles.some(s => s.buildUrl(seedName) === value)
+
+  return (
+    <div>
+      <label className="label mb-2 block">Profile Photo</label>
+
+      {/* Avatar grid */}
+      <div className="grid grid-cols-6 gap-2 mb-3">
+        {avatarStyles.map(style => {
+          const url = style.buildUrl(seedName)
+          const isSelected = value === url
+          return (
+            <button
+              key={style.id}
+              type="button"
+              onClick={() => { onChange(url); setShowCustom(false) }}
+              className="flex flex-col items-center gap-1 group"
+            >
+              <div
+                className="w-full aspect-square rounded-lg overflow-hidden transition-all duration-200"
+                style={{
+                  border: isSelected ? '2px solid var(--brand)' : '2px solid var(--border-subtle)',
+                  boxShadow: isSelected ? '0 0 0 2px rgba(226,106,27,0.2)' : 'none',
+                }}
+              >
+                <img src={url} alt={style.label} className="w-full h-full object-cover" />
+              </div>
+              <span className="text-[9px] font-mono" style={{ color: isSelected ? 'var(--brand)' : 'var(--text-muted)' }}>{style.label}</span>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Custom URL toggle */}
+      <button
+        type="button"
+        onClick={() => setShowCustom(!showCustom)}
+        className="flex items-center gap-1.5 text-xs transition-colors duration-200 mb-2"
+        style={{ color: showCustom || isCustom ? 'var(--brand)' : 'var(--text-muted)' }}
+      >
+        <LinkIcon className="w-3 h-3" />
+        {showCustom ? 'Hide custom URL' : 'Use custom photo URL'}
+      </button>
+
+      {(showCustom || isCustom) && (
+        <div className="flex gap-2">
+          <input
+            className="input-field flex-1 text-sm"
+            value={customUrl}
+            onChange={e => setCustomUrl(e.target.value)}
+            placeholder="https://example.com/photo.jpg"
+          />
+          <button
+            type="button"
+            onClick={() => { if (customUrl) onChange(customUrl) }}
+            className="px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200"
+            style={{ background: 'rgba(226,106,27,0.1)', color: 'var(--brand)', border: '1px solid rgba(226,106,27,0.2)' }}
+          >
+            Apply
+          </button>
+        </div>
+      )}
+
+      {/* Randomize seed button */}
+      <button
+        type="button"
+        onClick={() => {
+          const randomSeed = Math.random().toString(36).substr(2, 8)
+          const first = avatarStyles[0]
+          onChange(`https://api.dicebear.com/7.x/initials/svg?seed=${randomSeed}&backgroundColor=e26a1b&textColor=ffffff`)
+        }}
+        className="flex items-center gap-1.5 text-xs mt-2 transition-colors duration-200"
+        style={{ color: 'var(--text-muted)' }}
+        onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+        onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
+      >
+        <RefreshCw className="w-3 h-3" />
+        Randomize
+      </button>
+    </div>
+  )
+}
+
 function MemberModal({ member, members, onClose, onSave }: {
   member: Member | null
   members: Member[]
@@ -413,7 +520,7 @@ function MemberModal({ member, members, onClose, onSave }: {
       >
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-display font-bold" style={{ color: 'var(--text-primary)' }}>{member ? 'Edit Member' : 'Add Member'}</h3>
-          <button onClick={onClose} className="p-2 rounded-md transition-all" style={{ color: 'var(--text-muted)' }}><X className="w-4 h-4" /></button>
+          <button onClick={onClose} className="p-2 rounded-md transition-all hover:bg-white/5" style={{ color: 'var(--text-muted)' }}><X className="w-4 h-4" /></button>
         </div>
         <div className="space-y-3.5">
           <div className="form-group"><label className="label">Full Name *</label><input className="input-field" value={form.name || ''} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} placeholder="Ahmed Al-Rashid" /></div>
@@ -451,14 +558,21 @@ function MemberModal({ member, members, onClose, onSave }: {
               {members.filter(m => m.id !== member?.id).map(m => <option key={m.id} value={m.id}>{m.name} — {m.position}</option>)}
             </select>
           </div>
-          <div className="form-group"><label className="label">Photo URL (blank = auto-generated)</label><input className="input-field" value={form.image || ''} onChange={e => setForm(p => ({ ...p, image: e.target.value }))} placeholder="https://..." /></div>
+
+          {/* Avatar Picker */}
+          <AvatarPicker
+            name={form.name || ''}
+            value={form.image || ''}
+            onChange={url => setForm(p => ({ ...p, image: url }))}
+          />
+
           <div className="form-group"><label className="label">LinkedIn URL</label><input className="input-field" value={form.linkedin || ''} onChange={e => setForm(p => ({ ...p, linkedin: e.target.value }))} placeholder="https://linkedin.com/in/..." /></div>
           <div className="form-group"><label className="label">Instagram URL</label><input className="input-field" value={form.instagram || ''} onChange={e => setForm(p => ({ ...p, instagram: e.target.value }))} placeholder="https://instagram.com/..." /></div>
           <div className="form-group"><label className="label">WhatsApp URL</label><input className="input-field" value={form.whatsapp || ''} onChange={e => setForm(p => ({ ...p, whatsapp: e.target.value }))} placeholder="https://wa.me/..." /></div>
         </div>
         <div className="flex gap-3 mt-6">
-          <button onClick={handleSubmit} className="btn-primary flex-1">{member ? 'Save Changes' : 'Add Member'}</button>
-          <button onClick={onClose} className="btn-secondary px-5">Cancel</button>
+          <button onClick={handleSubmit} className="btn-primary flex-1 transition-transform duration-200 hover:scale-[1.02]">{member ? 'Save Changes' : 'Add Member'}</button>
+          <button onClick={onClose} className="btn-secondary px-5 transition-transform duration-200 hover:scale-[1.02]">Cancel</button>
         </div>
       </motion.div>
     </motion.div>
