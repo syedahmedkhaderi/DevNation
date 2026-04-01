@@ -14,7 +14,7 @@
   "members": [
     {
       "id": "m1",
-      "name": "Ahmed Al-Rashid",
+      "name": "Syed Ahmed Khaderi",
       "position": "Founder & Director",
       "department": "Leadership",
       "image": "https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmed&backgroundColor=b6e3f4",
@@ -149,25 +149,42 @@
       "category": "Hackathon",
       "registrationLink": "https://forms.google.com",
       "isOpen": true,
-      "tags": ["Hackathon", "Competition", "Innovation"],
+      "tags": [
+        "Hackathon",
+        "Competition",
+        "Innovation"
+      ],
       "teams": [
         {
           "id": "t1",
           "name": "Team Alpha",
           "description": "Building an AI-powered healthcare solution",
           "slots": 4,
-          "members": ["Alice", "Bob"],
+          "members": [
+            "Alice",
+            "Bob"
+          ],
           "whatsappLink": "https://wa.me/97412345678",
-          "skills": ["AI/ML", "Python", "React"]
+          "skills": [
+            "AI/ML",
+            "Python",
+            "React"
+          ]
         },
         {
           "id": "t2",
           "name": "Team Beta",
           "description": "Smart city traffic management system",
           "slots": 4,
-          "members": ["Charlie"],
+          "members": [
+            "Charlie"
+          ],
           "whatsappLink": "https://wa.me/97412345679",
-          "skills": ["IoT", "Data Analysis", "Flutter"]
+          "skills": [
+            "IoT",
+            "Data Analysis",
+            "Flutter"
+          ]
         },
         {
           "id": "t3",
@@ -176,7 +193,11 @@
           "slots": 3,
           "members": [],
           "whatsappLink": "https://wa.me/97412345680",
-          "skills": ["Web Dev", "UI/UX", "Node.js"]
+          "skills": [
+            "Web Dev",
+            "UI/UX",
+            "Node.js"
+          ]
         }
       ]
     },
@@ -190,7 +211,12 @@
       "category": "Workshop",
       "registrationLink": "https://forms.google.com",
       "isOpen": true,
-      "tags": ["AI", "Machine Learning", "Python", "Workshop"],
+      "tags": [
+        "AI",
+        "Machine Learning",
+        "Python",
+        "Workshop"
+      ],
       "teams": []
     },
     {
@@ -204,7 +230,11 @@
       "category": "Bootcamp",
       "registrationLink": "https://forms.google.com",
       "isOpen": false,
-      "tags": ["Web Development", "React", "TypeScript"],
+      "tags": [
+        "Web Development",
+        "React",
+        "TypeScript"
+      ],
       "teams": []
     }
   ],
@@ -215,10 +245,19 @@
       "description": "The official club management portal built by DevNation members. Features event management, member directory, and resource sharing.",
       "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop",
       "category": "Web Development",
-      "techStack": ["React", "TypeScript", "Tailwind CSS", "Node.js"],
+      "techStack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Node.js"
+      ],
       "githubLink": "https://github.com/udst-devnation/portal",
       "liveLink": "https://devnation.udst.edu.qa",
-      "team": ["Omar Al-Kuwari", "Reem Al-Mohannadi", "Khalid Al-Thani"],
+      "team": [
+        "Omar Al-Kuwari",
+        "Reem Al-Mohannadi",
+        "Khalid Al-Thani"
+      ],
       "status": "active",
       "year": 2025,
       "featured": true
@@ -229,9 +268,17 @@
       "description": "An AI-powered indoor navigation app for UDST campus that helps students find classrooms, offices, and facilities using their smartphones.",
       "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop",
       "category": "App Development",
-      "techStack": ["Flutter", "Firebase", "TensorFlow Lite", "Dart"],
+      "techStack": [
+        "Flutter",
+        "Firebase",
+        "TensorFlow Lite",
+        "Dart"
+      ],
       "githubLink": "https://github.com/udst-devnation/campus-nav",
-      "team": ["Noor Al-Mutawa", "Saad Al-Qahtani"],
+      "team": [
+        "Noor Al-Mutawa",
+        "Saad Al-Qahtani"
+      ],
       "status": "active",
       "year": 2025,
       "featured": true
@@ -242,9 +289,17 @@
       "description": "A machine learning API for Arabic text sentiment analysis, trained on Qatari social media data. Achieves 94% accuracy on benchmark tests.",
       "image": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&auto=format&fit=crop",
       "category": "AI/ML",
-      "techStack": ["Python", "FastAPI", "HuggingFace", "PyTorch"],
+      "techStack": [
+        "Python",
+        "FastAPI",
+        "HuggingFace",
+        "PyTorch"
+      ],
       "githubLink": "https://github.com/udst-devnation/arabic-sentiment",
-      "team": ["Fatima Hassan", "Hamad Al-Jaber"],
+      "team": [
+        "Fatima Hassan",
+        "Hamad Al-Jaber"
+      ],
       "status": "completed",
       "year": 2024,
       "featured": true
@@ -255,10 +310,18 @@
       "description": "An interactive web app that visualizes data structures and algorithms step-by-step, helping students understand complex CS concepts.",
       "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop",
       "category": "DSA",
-      "techStack": ["React", "D3.js", "JavaScript", "CSS Animations"],
+      "techStack": [
+        "React",
+        "D3.js",
+        "JavaScript",
+        "CSS Animations"
+      ],
       "githubLink": "https://github.com/udst-devnation/dsa-visualizer",
       "liveLink": "https://dsa.devnation.qa",
-      "team": ["Khalid Al-Thani", "Lina Al-Emadi"],
+      "team": [
+        "Khalid Al-Thani",
+        "Lina Al-Emadi"
+      ],
       "status": "completed",
       "year": 2024,
       "featured": false
@@ -272,7 +335,11 @@
       "type": "course",
       "category": "Web Development",
       "link": "https://udemy.com",
-      "tags": ["React", "JavaScript", "Frontend"],
+      "tags": [
+        "React",
+        "JavaScript",
+        "Frontend"
+      ],
       "addedBy": "Omar Al-Kuwari",
       "featured": true,
       "thumbnail": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&auto=format&fit=crop"
@@ -284,7 +351,11 @@
       "type": "course",
       "category": "AI/ML",
       "link": "https://freecodecamp.org",
-      "tags": ["Machine Learning", "Python", "AI"],
+      "tags": [
+        "Machine Learning",
+        "Python",
+        "AI"
+      ],
       "addedBy": "Fatima Hassan",
       "featured": true,
       "thumbnail": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&auto=format&fit=crop"
@@ -296,7 +367,12 @@
       "type": "course",
       "category": "DSA",
       "link": "https://cs50.harvard.edu",
-      "tags": ["C", "Python", "Algorithms", "Beginner"],
+      "tags": [
+        "C",
+        "Python",
+        "Algorithms",
+        "Beginner"
+      ],
       "addedBy": "Khalid Al-Thani",
       "featured": true,
       "thumbnail": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&auto=format&fit=crop"
@@ -308,7 +384,12 @@
       "type": "article",
       "category": "App Development",
       "link": "https://flutter.dev/docs",
-      "tags": ["Flutter", "Dart", "Mobile", "Cross-platform"],
+      "tags": [
+        "Flutter",
+        "Dart",
+        "Mobile",
+        "Cross-platform"
+      ],
       "addedBy": "Noor Al-Mutawa",
       "featured": false,
       "thumbnail": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&auto=format&fit=crop"
@@ -320,7 +401,12 @@
       "type": "video",
       "category": "Design",
       "link": "https://youtube.com",
-      "tags": ["Figma", "UI/UX", "Design", "Prototyping"],
+      "tags": [
+        "Figma",
+        "UI/UX",
+        "Design",
+        "Prototyping"
+      ],
       "addedBy": "Mariam Al-Sulaiti",
       "featured": false,
       "thumbnail": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&auto=format&fit=crop"
@@ -332,7 +418,11 @@
       "type": "tool",
       "category": "DSA",
       "link": "https://leetcode.com",
-      "tags": ["Algorithms", "Data Structures", "Interview Prep"],
+      "tags": [
+        "Algorithms",
+        "Data Structures",
+        "Interview Prep"
+      ],
       "addedBy": "Lina Al-Emadi",
       "featured": false,
       "thumbnail": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=400&auto=format&fit=crop"

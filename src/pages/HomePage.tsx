@@ -11,10 +11,10 @@ const groups = [
 ]
 
 const stats = [
-  { label: 'Active Members', value: '150+', suffix: '' },
-  { label: 'Events Hosted', value: '40+', suffix: '' },
-  { label: 'Projects Built', value: '25+', suffix: '' },
-  { label: 'Industry Partners', value: '10+', suffix: '' },
+  { label: 'Active Members', value: '150+', fill: 92 },
+  { label: 'Events Hosted', value: '40+', fill: 74 },
+  { label: 'Projects Built', value: '25+', fill: 58 },
+  { label: 'Industry Partners', value: '10+', fill: 40 },
 ]
 
 export default function HomePage() {
@@ -119,25 +119,57 @@ export default function HomePage() {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="lg:justify-self-end w-full max-w-sm"
             >
-              <div className="rounded-lg p-6 space-y-1" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}>
-                {/* Terminal header */}
-                <div className="flex items-center gap-2 pb-4 mb-4" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                  <div className="flex gap-1.5">
-                    <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.1)' }} />
-                    <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.1)' }} />
-                    <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.1)' }} />
+              <div className="rounded-lg p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}>
+                {/* HUD Header */}
+                <div className="flex items-center justify-between pb-4 mb-5" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                  <span className="text-xs font-mono font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>Mission Control</span>
+                  <div className="flex items-center gap-2">
+                    <motion.div
+                      animate={{ opacity: [1, 0.2, 1] }}
+                      transition={{ duration: 1.4, repeat: Infinity }}
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{ background: '#4ade80' }}
+                    />
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest" style={{ color: '#4ade80' }}>Live</span>
                   </div>
-                  <span className="text-xs font-mono ml-2" style={{ color: 'var(--text-muted)' }}>devnation_stats.json</span>
                 </div>
-                {stats.map((stat) => (
-                  <div key={stat.label} className="flex items-center justify-between py-2.5" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                    <span className="text-sm font-mono" style={{ color: 'var(--text-muted)' }}>"{stat.label}"</span>
-                    <span className="font-display font-bold text-lg" style={{ color: 'var(--brand)' }}>"{stat.value}"</span>
+
+                {/* Metric Rows */}
+                <div className="space-y-4">
+                  {stats.map((stat, i) => (
+                    <div key={stat.label}>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs font-mono uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{stat.label}</span>
+                        <span className="text-sm font-display font-bold" style={{ color: 'var(--brand)' }}>{stat.value}</span>
+                      </div>
+                      <div className="h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                        <motion.div
+                          className="h-full rounded-full"
+                          style={{ background: `linear-gradient(90deg, var(--brand), #e8833c)` }}
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${stat.fill}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1, delay: i * 0.15, ease: 'easeOut' }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Footer status */}
+                <div className="mt-5 pt-4 flex items-center gap-2" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                  <div className="flex gap-0.5 items-end h-3">
+                    {[3, 5, 4, 6, 5, 3, 6, 4].map((h, i) => (
+                      <motion.div
+                        key={i}
+                        className="w-0.5 rounded-sm"
+                        style={{ height: `${h * 2}px`, background: 'var(--brand)', opacity: 0.7 }}
+                        animate={{ scaleY: [1, 0.4, 1] }}
+                        transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.1, ease: 'easeInOut' }}
+                      />
+                    ))}
                   </div>
-                ))}
-                <div className="pt-3 flex items-center gap-2 text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
-                  <Terminal className="w-3 h-3" />
-                  <span className="animate-blink">|</span>
+                  <span className="text-[10px] font-mono uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>All Systems Operational</span>
                 </div>
               </div>
             </motion.div>
