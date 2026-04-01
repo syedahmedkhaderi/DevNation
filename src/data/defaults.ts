@@ -4,6 +4,10 @@ export interface Member {
   position: string
   department: string
   image: string
+  bio?: string
+  skills?: string[]
+  achievements?: string[]
+  website?: string
   linkedin?: string
   instagram?: string
   whatsapp?: string

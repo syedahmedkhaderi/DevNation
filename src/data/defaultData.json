@@ -18,6 +18,9 @@
       "position": "Founder & Director",
       "department": "Leadership",
       "image": "https://api.dicebear.com/7.x/initials/svg?seed=Syed%20Ahmed%20Khaderi&backgroundColor=e26a1b&textColor=ffffff",
+      "bio": "Visionary behind UDST DevNation — passionate about building a world-class technology community at UDST. Dedicated to empowering students with real-world skills, fostering collaboration, and driving innovation across Qatar's tech ecosystem.",
+      "skills": ["Community Building", "Strategic Leadership", "Full-Stack Development", "AI & Machine Learning", "Public Speaking"],
+      "achievements": ["Founded DevNation from the ground up in 2022", "Grew the community to 50+ active members in the first year", "Organized 10+ workshops and 2 major hackathons", "Established partnerships with tech industry leaders in Qatar"],
       "linkedin": "https://linkedin.com/in/ahmed-alrashid",
       "level": 0
     },

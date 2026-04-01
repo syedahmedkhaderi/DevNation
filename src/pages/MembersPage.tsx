@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Users, Plus, Pencil, Trash2, X, Linkedin, Instagram, MessageCircle, ChevronDown, ChevronUp, RefreshCw, Link as LinkIcon } from 'lucide-react'
+import { Users, Plus, Pencil, Trash2, X, Linkedin, Instagram, MessageCircle, ChevronDown, ChevronUp, RefreshCw, Link as LinkIcon, Globe, Award, Zap, ExternalLink } from 'lucide-react'
 import { useData } from '../context/DataContext'
 import { useAdmin } from '../context/AdminContext'
 import { Member } from '../data/defaults'
@@ -25,13 +25,202 @@ const levelColors = [
   { ring: 'rgba(194,149,106,0.5)', dot: '#c2956a' },
 ]
 
+function MemberProfileModal({ member, onClose, onEdit, isAdmin }: {
+  member: Member
+  onClose: () => void
+  onEdit: () => void
+  isAdmin: boolean
+}) {
+  const lc = levelColors[Math.min(member.level, 3)]
+  const meta = member.group ? groupMeta[member.group] : null
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center modal-overlay p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.94, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.94, y: 20 }}
+        transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+        className="rounded-xl w-full max-w-xl max-h-[88vh] overflow-y-auto shadow-2xl"
+        style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Top accent line */}
+        <div className="h-[2px] rounded-t-xl" style={{ background: `linear-gradient(90deg, ${lc.dot}, transparent)` }} />
+
+        {/* Header */}
+        <div className="relative px-8 pt-8 pb-6" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+          <div className="absolute top-4 right-4 flex items-center gap-2">
+            {isAdmin && (
+              <button
+                onClick={onEdit}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200"
+                style={{ background: 'rgba(226,106,27,0.1)', color: 'var(--brand)', border: '1px solid rgba(226,106,27,0.2)' }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(226,106,27,0.18)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(226,106,27,0.1)'}
+              >
+                <Pencil className="w-3 h-3" /> Edit
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="p-2 rounded-md transition-all hover:bg-white/5"
+              style={{ color: 'var(--text-muted)' }}
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="flex items-start gap-5">
+            <div
+              className="w-20 h-20 rounded-full overflow-hidden shrink-0"
+              style={{ boxShadow: `0 0 0 2px var(--bg-secondary), 0 0 0 4px ${lc.ring}` }}
+            >
+              <img src={member.image} alt={member.name} className="w-full h-full object-cover"
+                style={{ background: 'var(--bg-primary)' }}
+                onError={e => {
+                  (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(member.name)}&backgroundColor=e26a1b&textColor=ffffff`
+                }}
+              />
+            </div>
+
+            <div className="pt-1 flex-1 min-w-0 pr-20">
+              <h2 className="font-display font-bold text-xl leading-tight mb-1" style={{ color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
+                {member.name}
+              </h2>
+              <p className="text-sm font-semibold mb-3" style={{ color: 'var(--brand)' }}>{member.position}</p>
+              <div className="flex flex-wrap items-center gap-2">
+                {meta && (
+                  <span className="tag text-xs" style={{ background: meta.bg, color: meta.text, border: `1px solid ${meta.border}` }}>
+                    {member.group}
+                  </span>
+                )}
+                {member.department && (
+                  <span className="tag text-xs" style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--text-muted)' }}>
+                    {member.department}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Social links */}
+          <div className="flex items-center gap-2 mt-5">
+            {member.linkedin && (
+              <a href={member.linkedin} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200"
+                style={{ background: 'rgba(10,102,194,0.12)', color: '#5ba3d9', border: '1px solid rgba(10,102,194,0.2)' }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(10,102,194,0.22)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(10,102,194,0.12)'}
+              >
+                <Linkedin className="w-3 h-3" /> LinkedIn
+              </a>
+            )}
+            {member.instagram && (
+              <a href={member.instagram} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200"
+                style={{ background: 'rgba(193,53,132,0.12)', color: '#d96ab8', border: '1px solid rgba(193,53,132,0.2)' }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(193,53,132,0.22)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(193,53,132,0.12)'}
+              >
+                <Instagram className="w-3 h-3" /> Instagram
+              </a>
+            )}
+            {member.whatsapp && (
+              <a href={member.whatsapp} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200"
+                style={{ background: 'rgba(37,211,102,0.1)', color: '#4cd97a', border: '1px solid rgba(37,211,102,0.18)' }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(37,211,102,0.2)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(37,211,102,0.1)'}
+              >
+                <MessageCircle className="w-3 h-3" /> WhatsApp
+              </a>
+            )}
+            {member.website && (
+              <a href={member.website} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200"
+                style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.09)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
+              >
+                <Globe className="w-3 h-3" /> Website
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Body */}
+        <div className="px-8 py-6 space-y-6">
+          {/* Bio */}
+          {member.bio && (
+            <div>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{member.bio}</p>
+            </div>
+          )}
+
+          {/* Skills */}
+          {member.skills && member.skills.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <Zap className="w-3.5 h-3.5" style={{ color: 'var(--brand)' }} />
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em]" style={{ color: 'var(--brand)' }}>Skills</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {member.skills.map((skill, i) => (
+                  <span key={i} className="tag text-xs px-3 py-1"
+                    style={{ background: 'rgba(226,106,27,0.08)', color: 'var(--text-secondary)', border: '1px solid rgba(226,106,27,0.15)' }}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Achievements */}
+          {member.achievements && member.achievements.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <Award className="w-3.5 h-3.5" style={{ color: 'var(--accent)' }} />
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em]" style={{ color: 'var(--accent)' }}>Achievements</span>
+              </div>
+              <ul className="space-y-2.5">
+                {member.achievements.map((ach, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                    <span className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: 'var(--accent)' }} />
+                    {ach}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Empty state */}
+          {!member.bio && (!member.skills || member.skills.length === 0) && (!member.achievements || member.achievements.length === 0) && (
+            <p className="text-sm text-center py-4" style={{ color: 'var(--text-muted)' }}>
+              No profile details added yet.
+              {isAdmin && ' Use the edit button above to add bio, skills, and achievements.'}
+            </p>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
 function MemberCard({
-  member, isAdmin, onEdit, onDelete, size = 'md'
+  member, isAdmin, onEdit, onDelete, onView, size = 'md'
 }: {
   member: Member
   isAdmin: boolean
   onEdit: () => void
   onDelete: () => void
+  onView: () => void
   size?: 'lg' | 'md' | 'sm'
 }) {
   const lc = levelColors[Math.min(member.level, 3)]
@@ -43,17 +232,18 @@ function MemberCard({
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -3, transition: { duration: 0.2 } }}
-      className="member-card p-4 flex flex-col items-center text-center relative group cursor-default transition-all duration-200"
+      onClick={onView}
+      className="member-card p-4 flex flex-col items-center text-center relative group cursor-pointer transition-all duration-200"
       style={{ width: size === 'lg' ? 200 : size === 'md' ? 170 : 150 }}
-      onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 8px 24px rgba(226,106,27,0.08)')}
+      onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 8px 24px rgba(226,106,27,0.1)')}
       onMouseLeave={e => (e.currentTarget.style.boxShadow = '')}
     >
       {isAdmin && (
         <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-          <button onClick={onEdit} className="p-1.5 rounded-md transition-all hover:bg-white/10" style={{ color: 'var(--text-muted)' }}>
+          <button onClick={e => { e.stopPropagation(); onEdit() }} className="p-1.5 rounded-md transition-all hover:bg-white/10" style={{ color: 'var(--text-muted)' }}>
             <Pencil className="w-3 h-3" />
           </button>
-          <button onClick={onDelete} className="p-1.5 rounded-md transition-all hover:bg-red-500/10 hover:text-red-400" style={{ color: 'var(--text-muted)' }}>
+          <button onClick={e => { e.stopPropagation(); onDelete() }} className="p-1.5 rounded-md transition-all hover:bg-red-500/10 hover:text-red-400" style={{ color: 'var(--text-muted)' }}>
             <Trash2 className="w-3 h-3" />
           </button>
         </div>
@@ -77,7 +267,7 @@ function MemberCard({
       </div>
 
       <h3 className={`font-display font-bold ${nameSize} leading-snug mb-0.5`} style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>{member.name}</h3>
-      <p className="text-xs leading-tight mb-2" style={{ color: 'var(--text-muted)' }}>{member.position}</p>
+      <p className="text-xs leading-tight mb-2 font-medium" style={{ color: 'var(--brand)', opacity: 0.85 }}>{member.position}</p>
 
       {member.group && (
         <span className="tag text-xs mb-3" style={{
@@ -124,13 +314,14 @@ function MemberCard({
   )
 }
 
-function LevelSection({ label, color, members, isAdmin, onEdit, onDelete, size = 'md' }: {
+function LevelSection({ label, color, members, isAdmin, onEdit, onDelete, onView, size = 'md' }: {
   label: string
   color: string
   members: Member[]
   isAdmin: boolean
   onEdit: (m: Member) => void
   onDelete: (id: string) => void
+  onView: (m: Member) => void
   size?: 'lg' | 'md' | 'sm'
 }) {
   if (members.length === 0) return null
@@ -151,6 +342,7 @@ function LevelSection({ label, color, members, isAdmin, onEdit, onDelete, size =
             size={size}
             onEdit={() => onEdit(m)}
             onDelete={() => onDelete(m.id)}
+            onView={() => onView(m)}
           />
         ))}
       </div>
@@ -164,6 +356,7 @@ export default function MembersPage() {
   const [searchParams] = useSearchParams()
   const [showModal, setShowModal] = useState(false)
   const [editing, setEditing] = useState<Member | null>(null)
+  const [profileMember, setProfileMember] = useState<Member | null>(null)
   const [activeView, setActiveView] = useState<'hierarchy' | 'groups'>('hierarchy')
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({})
 
@@ -232,7 +425,7 @@ export default function MembersPage() {
         {activeView === 'hierarchy' && (
           <div className="space-y-14">
             {leadership.length > 0 && (
-              <LevelSection label="Founding Leadership" color="#e26a1b" members={leadership} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} size="lg" />
+              <LevelSection label="Founding Leadership" color="#e26a1b" members={leadership} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} onView={m => setProfileMember(m)} size="lg" />
             )}
             {leadership.length > 0 && level1.length > 0 && (
               <div className="flex justify-center -mt-8 -mb-8">
@@ -240,7 +433,7 @@ export default function MembersPage() {
               </div>
             )}
             {level1.length > 0 && (
-              <LevelSection label="Core Leadership" color="#e8833c" members={level1} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} size="md" />
+              <LevelSection label="Core Leadership" color="#e8833c" members={level1} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} onView={m => setProfileMember(m)} size="md" />
             )}
             {level1.length > 0 && level2.length > 0 && (
               <div className="flex justify-center -mt-8 -mb-8">
@@ -248,7 +441,7 @@ export default function MembersPage() {
               </div>
             )}
             {level2.length > 0 && (
-              <LevelSection label="Department Heads" color="#b07d4f" members={level2} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} size="md" />
+              <LevelSection label="Department Heads" color="#b07d4f" members={level2} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} onView={m => setProfileMember(m)} size="md" />
             )}
             {level2.length > 0 && level3plus.length > 0 && (
               <div className="flex justify-center -mt-8 -mb-8">
@@ -256,7 +449,7 @@ export default function MembersPage() {
               </div>
             )}
             {level3plus.length > 0 && (
-              <LevelSection label="Core Members" color="#c2956a" members={level3plus} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} size="sm" />
+              <LevelSection label="Core Members" color="#c2956a" members={level3plus} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} onView={m => setProfileMember(m)} size="sm" />
             )}
             {members.length === 0 && (
               <div className="text-center py-20">
@@ -327,6 +520,7 @@ export default function MembersPage() {
                                   size="sm"
                                   onEdit={() => { setEditing(m); setShowModal(true) }}
                                   onDelete={() => handleDelete(m.id)}
+                                  onView={() => setProfileMember(m)}
                                 />
                               ))}
                             </div>
@@ -357,7 +551,8 @@ export default function MembersPage() {
                     {members.filter(m => !m.group).map(m => (
                       <MemberCard key={m.id} member={m} isAdmin={isAdmin} size="sm"
                         onEdit={() => { setEditing(m); setShowModal(true) }}
-                        onDelete={() => handleDelete(m.id)} />
+                        onDelete={() => handleDelete(m.id)}
+                        onView={() => setProfileMember(m)} />
                     ))}
                   </div>
                 </div>
@@ -367,7 +562,19 @@ export default function MembersPage() {
         )}
       </div>
 
-      {/* Member Modal */}
+      {/* Member Profile Modal */}
+      <AnimatePresence>
+        {profileMember && (
+          <MemberProfileModal
+            member={profileMember}
+            isAdmin={isAdmin}
+            onClose={() => setProfileMember(null)}
+            onEdit={() => { setEditing(profileMember); setProfileMember(null); setShowModal(true) }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Member Edit Modal */}
       <AnimatePresence>
         {showModal && (
           <MemberModal
@@ -508,8 +715,11 @@ function MemberModal({ member, members, onClose, onSave }: {
   onSave: (m: Member) => void
 }) {
   const [form, setForm] = useState<Partial<Member>>(member || {
-    name: '', position: '', department: '', image: '', level: 3, group: '', linkedin: '', instagram: '', whatsapp: ''
+    name: '', position: '', department: '', image: '', level: 3, group: '',
+    bio: '', skills: [], achievements: [], website: '', linkedin: '', instagram: '', whatsapp: ''
   })
+  const [skillsInput, setSkillsInput] = useState((member?.skills || []).join(', '))
+  const [achievementsInput, setAchievementsInput] = useState((member?.achievements || []).join('\n'))
 
   const handleSubmit = () => {
     if (!form.name || !form.position) { toast.error('Fill in required fields'); return }
