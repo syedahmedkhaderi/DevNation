@@ -10,7 +10,7 @@ import AdminPage from './pages/AdminPage'
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#0a0a1a] flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg-primary)' }}>
       <Navbar />
       <main className="flex-1">
         <Routes>

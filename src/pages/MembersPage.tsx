@@ -11,23 +11,17 @@ function generateId() { return Math.random().toString(36).substr(2, 9) }
 const groups = ['DSA', 'AI/ML', 'Web Development', 'App Development']
 
 const groupMeta: Record<string, { bg: string; text: string; border: string; accent: string; num: string }> = {
-  'DSA': { bg: 'bg-emerald-500/8', text: 'text-emerald-300', border: 'border-emerald-500/20', accent: '#10b981', num: '01' },
-  'AI/ML': { bg: 'bg-violet-500/8', text: 'text-violet-300', border: 'border-violet-500/20', accent: '#8b5cf6', num: '02' },
-  'Web Development': { bg: 'bg-sky-500/8', text: 'text-sky-300', border: 'border-sky-500/20', accent: '#0ea5e9', num: '03' },
-  'App Development': { bg: 'bg-orange-500/8', text: 'text-orange-300', border: 'border-orange-500/20', accent: '#f97316', num: '04' },
+  'DSA': { bg: 'rgba(194,149,106,0.06)', text: '#c2956a', border: 'rgba(194,149,106,0.15)', accent: '#c2956a', num: '01' },
+  'AI/ML': { bg: 'rgba(226,106,27,0.06)', text: '#e26a1b', border: 'rgba(226,106,27,0.15)', accent: '#e26a1b', num: '02' },
+  'Web Development': { bg: 'rgba(176,125,79,0.06)', text: '#b07d4f', border: 'rgba(176,125,79,0.15)', accent: '#b07d4f', num: '03' },
+  'App Development': { bg: 'rgba(244,131,60,0.06)', text: '#e8833c', border: 'rgba(244,131,60,0.15)', accent: '#e8833c', num: '04' },
 }
 
-const levelRing = [
-  'ring-amber-400/60',
-  'ring-brand-400/60',
-  'ring-cyan-400/60',
-  'ring-emerald-400/60',
-]
-const levelDot = [
-  'bg-amber-400',
-  'bg-brand-400',
-  'bg-cyan-400',
-  'bg-emerald-400',
+const levelColors = [
+  { ring: 'rgba(226,106,27,0.5)', dot: '#e26a1b' },
+  { ring: 'rgba(232,131,60,0.5)', dot: '#e8833c' },
+  { ring: 'rgba(176,125,79,0.5)', dot: '#b07d4f' },
+  { ring: 'rgba(194,149,106,0.5)', dot: '#c2956a' },
 ]
 
 function MemberCard({
@@ -39,8 +33,7 @@ function MemberCard({
   onDelete: () => void
   size?: 'lg' | 'md' | 'sm'
 }) {
-  const ringClass = levelRing[Math.min(member.level, 3)]
-  const dotClass = levelDot[Math.min(member.level, 3)]
+  const lc = levelColors[Math.min(member.level, 3)]
   const imgSize = size === 'lg' ? 'w-20 h-20' : size === 'md' ? 'w-14 h-14' : 'w-12 h-12'
   const nameSize = size === 'lg' ? 'text-base' : 'text-sm'
 
@@ -53,35 +46,42 @@ function MemberCard({
     >
       {isAdmin && (
         <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-          <button onClick={onEdit} className="p-1.5 rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-all">
+          <button onClick={onEdit} className="p-1.5 rounded-md transition-all" style={{ color: 'var(--text-muted)' }}>
             <Pencil className="w-3 h-3" />
           </button>
-          <button onClick={onDelete} className="p-1.5 rounded-md text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all">
+          <button onClick={onDelete} className="p-1.5 rounded-md transition-all" style={{ color: 'var(--text-muted)' }}>
             <Trash2 className="w-3 h-3" />
           </button>
         </div>
       )}
 
       {/* Dot indicator */}
-      <div className={`absolute top-3 left-3 w-1.5 h-1.5 rounded-full ${dotClass}`} />
+      <div className="absolute top-3 left-3 w-1.5 h-1.5 rounded-full" style={{ background: lc.dot }} />
 
       {/* Avatar */}
-      <div className={`${imgSize} rounded-full ring-2 ${ringClass} ring-offset-2 ring-offset-[#060610] mb-3 overflow-hidden shrink-0`}>
+      <div
+        className={`${imgSize} rounded-full mb-3 overflow-hidden shrink-0`}
+        style={{ boxShadow: `0 0 0 2px var(--bg-primary), 0 0 0 4px ${lc.ring}` }}
+      >
         <img
           src={member.image}
           alt={member.name}
-          className="w-full h-full object-cover bg-[#0b0b1f]"
+          className="w-full h-full object-cover"
+          style={{ background: 'var(--bg-secondary)' }}
           onError={e => {
-            (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(member.name)}&backgroundColor=6366f1&textColor=ffffff`
+            (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(member.name)}&backgroundColor=e26a1b&textColor=ffffff`
           }}
         />
       </div>
 
-      <h3 className={`font-display font-bold text-white ${nameSize} leading-snug mb-0.5`}>{member.name}</h3>
-      <p className="text-slate-500 text-xs leading-tight mb-2">{member.position}</p>
+      <h3 className={`font-display font-bold ${nameSize} leading-snug mb-0.5`} style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>{member.name}</h3>
+      <p className="text-xs leading-tight mb-2" style={{ color: 'var(--text-muted)' }}>{member.position}</p>
 
       {member.group && (
-        <span className={`tag ${groupMeta[member.group]?.bg || 'bg-white/5'} ${groupMeta[member.group]?.text || 'text-slate-400'} text-xs mb-3`}>
+        <span className="tag text-xs mb-3" style={{
+          background: groupMeta[member.group]?.bg || 'rgba(255,255,255,0.03)',
+          color: groupMeta[member.group]?.text || 'var(--text-muted)'
+        }}>
           {member.group}
         </span>
       )}
@@ -89,19 +89,31 @@ function MemberCard({
       <div className="flex items-center gap-1.5 mt-auto">
         {member.linkedin && (
           <a href={member.linkedin} target="_blank" rel="noopener noreferrer"
-            className="w-6 h-6 rounded-md bg-white/5 hover:bg-blue-600 flex items-center justify-center text-slate-500 hover:text-white transition-all duration-200" aria-label="LinkedIn">
+            className="w-6 h-6 rounded-md flex items-center justify-center transition-all duration-200"
+            style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--text-muted)' }}
+            onMouseEnter={e => { e.currentTarget.style.background = '#0a66c2'; e.currentTarget.style.color = '#fff' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'var(--text-muted)' }}
+            aria-label="LinkedIn">
             <Linkedin className="w-3 h-3" />
           </a>
         )}
         {member.instagram && (
           <a href={member.instagram} target="_blank" rel="noopener noreferrer"
-            className="w-6 h-6 rounded-md bg-white/5 hover:bg-pink-600 flex items-center justify-center text-slate-500 hover:text-white transition-all duration-200" aria-label="Instagram">
+            className="w-6 h-6 rounded-md flex items-center justify-center transition-all duration-200"
+            style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--text-muted)' }}
+            onMouseEnter={e => { e.currentTarget.style.background = '#c13584'; e.currentTarget.style.color = '#fff' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'var(--text-muted)' }}
+            aria-label="Instagram">
             <Instagram className="w-3 h-3" />
           </a>
         )}
         {member.whatsapp && (
           <a href={member.whatsapp} target="_blank" rel="noopener noreferrer"
-            className="w-6 h-6 rounded-md bg-white/5 hover:bg-green-600 flex items-center justify-center text-slate-500 hover:text-white transition-all duration-200" aria-label="WhatsApp">
+            className="w-6 h-6 rounded-md flex items-center justify-center transition-all duration-200"
+            style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--text-muted)' }}
+            onMouseEnter={e => { e.currentTarget.style.background = '#25d366'; e.currentTarget.style.color = '#fff' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'var(--text-muted)' }}
+            aria-label="WhatsApp">
             <MessageCircle className="w-3 h-3" />
           </a>
         )}
@@ -123,11 +135,11 @@ function LevelSection({ label, color, members, isAdmin, onEdit, onDelete, size =
   return (
     <div>
       <div className="level-divider" style={{ '--line-color': color } as React.CSSProperties}>
-        <span className="text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap" style={{ color }}>
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] whitespace-nowrap font-mono" style={{ color }}>
           {label}
         </span>
       </div>
-      <style>{`.level-divider::before { background: linear-gradient(to right, transparent, ${color}30); } .level-divider::after { background: linear-gradient(to left, transparent, ${color}30); }`}</style>
+      <style>{`.level-divider::before { background: linear-gradient(to right, transparent, ${color}25); } .level-divider::after { background: linear-gradient(to left, transparent, ${color}25); }`}</style>
       <div className="members-row">
         {members.map(m => (
           <MemberCard
@@ -167,18 +179,18 @@ export default function MembersPage() {
   const level3plus = members.filter(m => m.level >= 3)
 
   return (
-    <div className="min-h-screen pt-24 pb-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen pt-28 pb-24">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10">
 
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-14">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.25em] text-brand-400 mb-3">The People</p>
-              <h1 className="text-5xl font-display font-bold text-white leading-none mb-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.25em] mb-4 font-mono" style={{ color: 'var(--brand)' }}>The People</p>
+              <h1 className="text-5xl font-display font-bold leading-none mb-4" style={{ color: 'var(--text-primary)', letterSpacing: '-0.04em' }}>
                 Our<br /><span className="text-gradient">Members</span>
               </h1>
-              <p className="text-slate-500 text-sm max-w-sm leading-relaxed">
+              <p className="text-sm max-w-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
                 Organizers, builders, and community leaders — the humans behind DevNation.
               </p>
             </div>
@@ -191,12 +203,17 @@ export default function MembersPage() {
         </motion.div>
 
         {/* View Toggle */}
-        <div className="inline-flex bg-white/4 border border-white/8 rounded-xl p-1 mb-12 gap-1">
+        <div className="inline-flex rounded-md p-1 mb-14 gap-1" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)' }}>
           {(['hierarchy', 'groups'] as const).map(v => (
             <button
               key={v}
               onClick={() => setActiveView(v)}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold capitalize transition-all duration-200 ${activeView === v ? 'bg-brand-600 text-white shadow-lg shadow-brand-600/30' : 'text-slate-500 hover:text-slate-300'}`}
+              className="px-5 py-2 rounded-md text-sm font-semibold capitalize transition-all duration-200"
+              style={{
+                background: activeView === v ? 'var(--brand)' : 'transparent',
+                color: activeView === v ? '#fff' : 'var(--text-muted)',
+                boxShadow: activeView === v ? '0 2px 8px rgba(226,106,27,0.25)' : 'none',
+              }}
             >
               {v === 'hierarchy' ? 'Org Hierarchy' : 'By Groups'}
             </button>
@@ -206,38 +223,37 @@ export default function MembersPage() {
         {/* ── Hierarchy View ───────────────────────────────────── */}
         {activeView === 'hierarchy' && (
           <div className="space-y-14">
-            {/* Connector: vertical line between levels */}
             {leadership.length > 0 && (
-              <LevelSection label="Founding Leadership" color="#f59e0b" members={leadership} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} size="lg" />
+              <LevelSection label="Founding Leadership" color="#e26a1b" members={leadership} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} size="lg" />
             )}
             {leadership.length > 0 && level1.length > 0 && (
               <div className="flex justify-center -mt-8 -mb-8">
-                <div className="w-px h-10 bg-gradient-to-b from-amber-500/40 to-brand-500/40" />
+                <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom, rgba(226,106,27,0.3), rgba(232,131,60,0.3))' }} />
               </div>
             )}
             {level1.length > 0 && (
-              <LevelSection label="Core Leadership" color="#6366f1" members={level1} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} size="md" />
+              <LevelSection label="Core Leadership" color="#e8833c" members={level1} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} size="md" />
             )}
             {level1.length > 0 && level2.length > 0 && (
               <div className="flex justify-center -mt-8 -mb-8">
-                <div className="w-px h-10 bg-gradient-to-b from-brand-500/40 to-cyan-500/40" />
+                <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom, rgba(232,131,60,0.3), rgba(176,125,79,0.3))' }} />
               </div>
             )}
             {level2.length > 0 && (
-              <LevelSection label="Department Heads" color="#06b6d4" members={level2} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} size="md" />
+              <LevelSection label="Department Heads" color="#b07d4f" members={level2} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} size="md" />
             )}
             {level2.length > 0 && level3plus.length > 0 && (
               <div className="flex justify-center -mt-8 -mb-8">
-                <div className="w-px h-10 bg-gradient-to-b from-cyan-500/40 to-emerald-500/40" />
+                <div className="w-px h-10" style={{ background: 'linear-gradient(to bottom, rgba(176,125,79,0.3), rgba(194,149,106,0.3))' }} />
               </div>
             )}
             {level3plus.length > 0 && (
-              <LevelSection label="Core Members" color="#10b981" members={level3plus} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} size="sm" />
+              <LevelSection label="Core Members" color="#c2956a" members={level3plus} isAdmin={isAdmin} onEdit={m => { setEditing(m); setShowModal(true) }} onDelete={handleDelete} size="sm" />
             )}
             {members.length === 0 && (
-              <div className="text-center py-16">
-                <Users className="w-10 h-10 text-slate-700 mx-auto mb-3" />
-                <p className="text-slate-600">No members yet.</p>
+              <div className="text-center py-20">
+                <Users className="w-10 h-10 mx-auto mb-3" style={{ color: 'var(--text-muted)' }} />
+                <p style={{ color: 'var(--text-muted)' }}>No members yet.</p>
               </div>
             )}
           </div>
@@ -257,23 +273,26 @@ export default function MembersPage() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.07 }}
-                  className={`rounded-2xl border overflow-hidden ${meta.border}`}
-                  style={{ background: 'rgba(8,8,24,0.7)' }}
+                  className="rounded-lg overflow-hidden"
+                  style={{ background: 'var(--bg-secondary)', border: `1px solid ${meta.border}` }}
                 >
                   <button
                     onClick={() => toggleGroup(group)}
-                    className="w-full flex items-center justify-between px-6 py-5 hover:bg-white/3 transition-colors"
+                    className="w-full flex items-center justify-between px-6 py-5 transition-colors"
+                    style={{ color: meta.text }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                   >
                     <div className="flex items-center gap-4">
-                      <span className="font-mono text-xs font-bold text-slate-600">{meta.num}</span>
-                      <span className={`font-display font-bold text-xl ${meta.text}`}>{group}</span>
-                      <span className={`tag ${meta.bg} ${meta.text} border ${meta.border} text-xs`}>
+                      <span className="font-mono text-xs font-bold" style={{ color: 'var(--text-muted)' }}>{meta.num}</span>
+                      <span className="font-display font-bold text-xl" style={{ color: meta.text }}>{group}</span>
+                      <span className="tag text-xs" style={{ background: meta.bg, color: meta.text, border: `1px solid ${meta.border}` }}>
                         {groupMembers.length} members
                       </span>
                     </div>
                     {isExpanded
-                      ? <ChevronUp className={`w-4 h-4 ${meta.text} opacity-60`} />
-                      : <ChevronDown className={`w-4 h-4 ${meta.text} opacity-60`} />}
+                      ? <ChevronUp className="w-4 h-4 opacity-60" />
+                      : <ChevronDown className="w-4 h-4 opacity-60" />}
                   </button>
 
                   <AnimatePresence>
@@ -287,7 +306,7 @@ export default function MembersPage() {
                       >
                         <div className="px-6 pb-6 pt-2">
                           {groupMembers.length === 0 ? (
-                            <p className="text-slate-600 text-sm text-center py-6">No members in this group yet.</p>
+                            <p className="text-sm text-center py-6" style={{ color: 'var(--text-muted)' }}>No members in this group yet.</p>
                           ) : (
                             <div className="members-row">
                               {groupMembers.map(m => (
@@ -315,13 +334,13 @@ export default function MembersPage() {
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="rounded-2xl border border-white/8 overflow-hidden"
-                style={{ background: 'rgba(8,8,24,0.7)' }}
+                className="rounded-lg overflow-hidden"
+                style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}
               >
-                <div className="flex items-center gap-4 px-6 py-5 border-b border-white/5">
-                  <span className="font-mono text-xs font-bold text-slate-600">00</span>
-                  <span className="font-display font-bold text-xl text-slate-300">General Team</span>
-                  <span className="tag bg-white/5 text-slate-500 text-xs">{members.filter(m => !m.group).length} members</span>
+                <div className="flex items-center gap-4 px-6 py-5" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                  <span className="font-mono text-xs font-bold" style={{ color: 'var(--text-muted)' }}>00</span>
+                  <span className="font-display font-bold text-xl" style={{ color: 'var(--text-secondary)' }}>General Team</span>
+                  <span className="tag text-xs" style={{ background: 'rgba(255,255,255,0.03)', color: 'var(--text-muted)' }}>{members.filter(m => !m.group).length} members</span>
                 </div>
                 <div className="px-6 pb-6 pt-4">
                   <div className="members-row">
@@ -370,7 +389,7 @@ function MemberModal({ member, members, onClose, onSave }: {
   const handleSubmit = () => {
     if (!form.name || !form.position) { toast.error('Fill in required fields'); return }
     if (!form.image) {
-      form.image = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(form.name || '')}&backgroundColor=6366f1&textColor=ffffff`
+      form.image = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(form.name || '')}&backgroundColor=e26a1b&textColor=ffffff`
     }
     onSave({ ...form, id: member?.id || generateId() } as Member)
   }
@@ -386,14 +405,15 @@ function MemberModal({ member, members, onClose, onSave }: {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center modal-overlay p-4">
       <motion.div
-        initial={{ scale: 0.92, y: 16 }}
+        initial={{ scale: 0.95, y: 16 }}
         animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.92, y: 16 }}
-        className="bg-[#0b0b1f] border border-white/10 rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl"
+        exit={{ scale: 0.95, y: 16 }}
+        className="rounded-lg p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl"
+        style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}
       >
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-display font-bold text-white">{member ? 'Edit Member' : 'Add Member'}</h3>
-          <button onClick={onClose} className="p-2 rounded-lg text-slate-500 hover:text-white hover:bg-white/8 transition-all"><X className="w-4 h-4" /></button>
+          <h3 className="text-lg font-display font-bold" style={{ color: 'var(--text-primary)' }}>{member ? 'Edit Member' : 'Add Member'}</h3>
+          <button onClick={onClose} className="p-2 rounded-md transition-all" style={{ color: 'var(--text-muted)' }}><X className="w-4 h-4" /></button>
         </div>
         <div className="space-y-3.5">
           <div className="form-group"><label className="label">Full Name *</label><input className="input-field" value={form.name || ''} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} placeholder="Ahmed Al-Rashid" /></div>

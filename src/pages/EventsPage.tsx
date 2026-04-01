@@ -10,13 +10,13 @@ function generateId() {
   return Math.random().toString(36).substr(2, 9)
 }
 
-const categoryColors: Record<string, string> = {
-  Hackathon: 'bg-red-500/10 text-red-300',
-  Workshop: 'bg-blue-500/10 text-blue-300',
-  Bootcamp: 'bg-orange-500/10 text-orange-300',
-  Seminar: 'bg-purple-500/10 text-purple-300',
-  Competition: 'bg-green-500/10 text-green-300',
-  Other: 'bg-slate-500/10 text-slate-300',
+const categoryColors: Record<string, { bg: string; text: string }> = {
+  Hackathon: { bg: 'rgba(226,106,27,0.08)', text: 'var(--brand)' },
+  Workshop: { bg: 'rgba(176,125,79,0.08)', text: 'var(--accent)' },
+  Bootcamp: { bg: 'rgba(232,131,60,0.08)', text: 'var(--brand-light)' },
+  Seminar: { bg: 'rgba(255,255,255,0.05)', text: 'var(--text-primary)' },
+  Competition: { bg: 'rgba(226,106,27,0.08)', text: 'var(--brand)' },
+  Other: { bg: 'rgba(255,255,255,0.03)', text: 'var(--text-muted)' },
 }
 
 interface JoinTeamModal {
@@ -61,14 +61,15 @@ export default function EventsPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen pt-28 pb-20">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
         {/* Header */}
-        <div className="mb-10">
+        <div className="mb-12">
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="tag bg-green-500/10 text-green-300 border border-green-500/20 mb-4 inline-block"
+            className="tag mb-4 inline-block"
+            style={{ background: 'rgba(226,106,27,0.08)', color: 'var(--brand)', border: '1px solid rgba(226,106,27,0.15)' }}
           >
             <Calendar className="w-3.5 h-3.5 inline mr-1" />
             Events
@@ -80,7 +81,7 @@ export default function EventsPage() {
           >
             <div>
               <h1 className="section-heading mb-2">Events & Programs</h1>
-              <p className="text-slate-400">Hackathons, workshops, bootcamps and more — stay updated with what DevNation has on.</p>
+              <p style={{ color: 'var(--text-secondary)' }}>Hackathons, workshops, bootcamps and more — stay updated with what DevNation has on.</p>
             </div>
             {isAdmin && (
               <button onClick={() => { setEditingEvent(null); setShowEventModal(true) }} className="btn-primary flex items-center gap-2">
@@ -91,9 +92,9 @@ export default function EventsPage() {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row gap-4 mb-10">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--text-muted)' }} />
             <input
               type="text"
               placeholder="Search events..."
@@ -107,7 +108,12 @@ export default function EventsPage() {
               <button
                 key={i}
                 onClick={() => setFilterOpen(val)}
-                className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${filterOpen === val ? 'bg-brand-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}`}
+                className="px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200"
+                style={{
+                  background: filterOpen === val ? 'var(--brand)' : 'rgba(255,255,255,0.03)',
+                  color: filterOpen === val ? '#fff' : 'var(--text-secondary)',
+                  border: filterOpen === val ? 'none' : '1px solid var(--border-subtle)',
+                }}
               >
                 {val === null ? 'All' : val ? 'Open' : 'Closed'}
               </button>
@@ -117,19 +123,21 @@ export default function EventsPage() {
 
         {/* Events Grid */}
         {filtered.length === 0 ? (
-          <div className="text-center py-20">
-            <Calendar className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-            <p className="text-slate-500">No events found.</p>
+          <div className="text-center py-24">
+            <Calendar className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--text-muted)' }} />
+            <p style={{ color: 'var(--text-muted)' }}>No events found.</p>
           </div>
         ) : (
           <div className="space-y-6">
-            {filtered.map((event, i) => (
+            {filtered.map((event, i) => {
+              const catStyle = categoryColors[event.category] || categoryColors.Other
+              return (
               <motion.div
                 key={event.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="glass-card rounded-2xl overflow-hidden"
+                className="glass-card rounded-lg overflow-hidden"
               >
                 <div className="md:flex">
                   <div className="md:w-72 h-48 md:h-auto shrink-0">
@@ -138,27 +146,30 @@ export default function EventsPage() {
                   <div className="p-6 flex-1">
                     <div className="flex items-start justify-between gap-4 flex-wrap mb-3">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className={`tag ${categoryColors[event.category] || categoryColors.Other}`}>{event.category}</span>
-                        <span className={`tag ${event.isOpen ? 'bg-green-500/10 text-green-300' : 'bg-slate-500/10 text-slate-400'}`}>
+                        <span className="tag" style={{ background: catStyle.bg, color: catStyle.text }}>{event.category}</span>
+                        <span className="tag" style={{
+                          background: event.isOpen ? 'rgba(226,106,27,0.08)' : 'rgba(255,255,255,0.05)',
+                          color: event.isOpen ? 'var(--brand)' : 'var(--text-muted)'
+                        }}>
                           {event.isOpen ? 'Open' : 'Closed'}
                         </span>
                       </div>
                       {isAdmin && (
-                        <div className="flex items-center gap-2">
-                          <button onClick={() => { setEditingEvent(event); setShowEventModal(true) }} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all">
+                        <div className="flex items-center gap-1">
+                          <button onClick={() => { setEditingEvent(event); setShowEventModal(true) }} className="p-2 rounded-md transition-all" style={{ color: 'var(--text-muted)' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
                             <Pencil className="w-4 h-4" />
                           </button>
-                          <button onClick={() => handleDeleteEvent(event.id)} className="p-2 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all">
+                          <button onClick={() => handleDeleteEvent(event.id)} className="p-2 rounded-md transition-all" style={{ color: 'var(--text-muted)' }} onMouseEnter={e => e.currentTarget.style.color = '#ef4444'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
                       )}
                     </div>
 
-                    <h2 className="text-xl font-display font-bold text-white mb-2">{event.title}</h2>
-                    <p className="text-slate-400 text-sm leading-relaxed mb-4">{event.description}</p>
+                    <h2 className="text-xl font-display font-bold mb-2" style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>{event.title}</h2>
+                    <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>{event.description}</p>
 
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-slate-400 mb-4">
+                    <div className="flex flex-wrap items-center gap-4 text-sm mb-4" style={{ color: 'var(--text-muted)' }}>
                       <span className="flex items-center gap-1.5">
                         <Calendar className="w-4 h-4" />
                         {new Date(event.date).toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' })}
@@ -173,7 +184,7 @@ export default function EventsPage() {
                     {event.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mb-4">
                         {event.tags.map(tag => (
-                          <span key={tag} className="tag bg-white/5 text-slate-400 text-xs"><Tag className="w-3 h-3" />{tag}</span>
+                          <span key={tag} className="tag text-xs" style={{ background: 'rgba(255,255,255,0.03)', color: 'var(--text-muted)' }}><Tag className="w-3 h-3" />{tag}</span>
                         ))}
                       </div>
                     )}
@@ -187,7 +198,8 @@ export default function EventsPage() {
                       {event.teams.length > 0 && (
                         <button
                           onClick={() => setExpandedEvent(expandedEvent === event.id ? null : event.id)}
-                          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 transition-all border border-purple-500/20"
+                          className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all"
+                          style={{ background: 'rgba(176,125,79,0.08)', color: 'var(--accent)', border: '1px solid rgba(176,125,79,0.15)' }}
                         >
                           <Users className="w-4 h-4" />
                           Finding Teams ({event.teams.length})
@@ -197,7 +209,8 @@ export default function EventsPage() {
                       {isAdmin && (
                         <button
                           onClick={() => setShowTeamModal({ eventId: event.id })}
-                          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white transition-all"
+                          className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all"
+                          style={{ background: 'rgba(255,255,255,0.03)', color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }}
                         >
                           <Plus className="w-4 h-4" /> Add Team
                         </button>
@@ -213,51 +226,50 @@ export default function EventsPage() {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="border-t border-white/5"
+                      style={{ borderTop: '1px solid var(--border-subtle)' }}
                     >
                       <div className="p-6">
                         <div className="flex items-center justify-between mb-6">
                           <div>
-                            <h3 className="text-lg font-display font-bold text-white flex items-center gap-2">
-                              <Users className="w-5 h-5 text-purple-400" />
+                            <h3 className="text-lg font-display font-bold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                              <Users className="w-5 h-5" style={{ color: 'var(--accent)' }} />
                               Finding Teams
                             </h3>
-                            <p className="text-slate-500 text-sm mt-1">Join an existing team or browse open slots</p>
+                            <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Join an existing team or browse open slots</p>
                           </div>
                         </div>
                         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                           {event.teams.map(team => (
-                            <div key={team.id} className="bg-white/3 border border-white/8 rounded-xl p-5 hover:border-purple-500/30 transition-all">
+                            <div key={team.id} className="rounded-lg p-5 transition-all" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)' }}
+                              onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(176,125,79,0.2)'}
+                              onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border-subtle)'}
+                            >
                               <div className="flex items-start justify-between mb-3">
-                                <h4 className="font-semibold text-white">{team.name}</h4>
+                                <h4 className="font-semibold" style={{ color: 'var(--text-primary)' }}>{team.name}</h4>
                                 {isAdmin && (
                                   <div className="flex gap-1">
-                                    <button onClick={() => setShowTeamModal({ eventId: event.id, team })} className="p-1 text-slate-500 hover:text-white transition-colors">
-                                      <Pencil className="w-3.5 h-3.5" />
-                                    </button>
-                                    <button onClick={() => { removeTeamFromEvent(event.id, team.id); toast.success('Team removed') }} className="p-1 text-slate-500 hover:text-red-400 transition-colors">
-                                      <Trash2 className="w-3.5 h-3.5" />
-                                    </button>
+                                    <button onClick={() => setShowTeamModal({ eventId: event.id, team })} className="p-1 transition-colors" style={{ color: 'var(--text-muted)' }}><Pencil className="w-3.5 h-3.5" /></button>
+                                    <button onClick={() => { removeTeamFromEvent(event.id, team.id); toast.success('Team removed') }} className="p-1 transition-colors" style={{ color: 'var(--text-muted)' }}><Trash2 className="w-3.5 h-3.5" /></button>
                                   </div>
                                 )}
                               </div>
-                              <p className="text-slate-400 text-sm mb-3">{team.description}</p>
+                              <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>{team.description}</p>
                               <div className="flex flex-wrap gap-1 mb-3">
-                                {team.skills.map(s => <span key={s} className="tag bg-brand-500/10 text-brand-300 text-xs">{s}</span>)}
+                                {team.skills.map(s => <span key={s} className="tag text-xs" style={{ background: 'rgba(226,106,27,0.08)', color: 'var(--brand)' }}>{s}</span>)}
                               </div>
                               <div className="flex items-center justify-between text-sm mb-4">
-                                <span className="flex items-center gap-1 text-slate-400">
+                                <span className="flex items-center gap-1" style={{ color: 'var(--text-muted)' }}>
                                   <Users className="w-3.5 h-3.5" />
                                   {team.members.length}/{team.slots} members
                                 </span>
-                                <span className={`text-xs font-medium ${team.members.length < team.slots ? 'text-green-400' : 'text-red-400'}`}>
+                                <span className="text-xs font-medium" style={{ color: team.members.length < team.slots ? 'var(--brand)' : 'var(--text-muted)' }}>
                                   {team.members.length < team.slots ? `${team.slots - team.members.length} slots open` : 'Full'}
                                 </span>
                               </div>
                               {team.members.length > 0 && (
                                 <div className="flex flex-wrap gap-1 mb-3">
                                   {team.members.map(m => (
-                                    <span key={m} className="tag bg-white/5 text-slate-400 text-xs">{m}</span>
+                                    <span key={m} className="tag text-xs" style={{ background: 'rgba(255,255,255,0.03)', color: 'var(--text-muted)' }}>{m}</span>
                                   ))}
                                 </div>
                               )}
@@ -265,7 +277,8 @@ export default function EventsPage() {
                                 {team.members.length < team.slots && event.isOpen && (
                                   <button
                                     onClick={() => setJoinModal({ eventId: event.id, team })}
-                                    className="flex-1 py-2 rounded-lg text-xs font-medium bg-purple-500/15 text-purple-300 hover:bg-purple-500/30 transition-all border border-purple-500/20"
+                                    className="flex-1 py-2 rounded-md text-xs font-medium transition-all"
+                                    style={{ background: 'rgba(176,125,79,0.1)', color: 'var(--accent)', border: '1px solid rgba(176,125,79,0.15)' }}
                                   >
                                     Join Team
                                   </button>
@@ -275,7 +288,8 @@ export default function EventsPage() {
                                     href={team.whatsappLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center gap-1 py-2 px-3 rounded-lg text-xs font-medium bg-green-500/10 text-green-300 hover:bg-green-500/20 transition-all border border-green-500/20"
+                                    className="flex items-center gap-1 py-2 px-3 rounded-md text-xs font-medium transition-all"
+                                    style={{ background: 'rgba(226,106,27,0.08)', color: 'var(--brand)', border: '1px solid rgba(226,106,27,0.15)' }}
                                   >
                                     <MessageCircle className="w-3.5 h-3.5" />
                                     WhatsApp
@@ -290,7 +304,7 @@ export default function EventsPage() {
                   )}
                 </AnimatePresence>
               </motion.div>
-            ))}
+            )})}
           </div>
         )}
       </div>
@@ -340,18 +354,19 @@ export default function EventsPage() {
             className="fixed inset-0 z-50 flex items-center justify-center modal-overlay p-4"
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-[#0f0f2a] border border-white/10 rounded-2xl p-6 w-full max-w-md"
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="rounded-lg p-6 w-full max-w-md"
+              style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}
             >
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-display font-bold text-white">Join {joinModal.team.name}</h3>
-                <button onClick={() => { setJoinModal(null); setJoinName('') }} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all">
+                <h3 className="text-lg font-display font-bold" style={{ color: 'var(--text-primary)' }}>Join {joinModal.team.name}</h3>
+                <button onClick={() => { setJoinModal(null); setJoinName('') }} className="p-2 rounded-md transition-all" style={{ color: 'var(--text-muted)' }}>
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-slate-400 text-sm mb-4">Enter your name to join this team. You'll receive a WhatsApp contact to coordinate.</p>
+              <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)' }}>Enter your name to join this team. You'll receive a WhatsApp contact to coordinate.</p>
               <div className="form-group mb-4">
                 <label className="label">Your Full Name</label>
                 <input type="text" value={joinName} onChange={e => setJoinName(e.target.value)} className="input-field" placeholder="e.g. Ahmed Al-Rashid" onKeyDown={e => e.key === 'Enter' && handleJoin(joinModal.eventId, joinModal.team.id)} />
@@ -385,10 +400,10 @@ function EventModal({ event, onClose, onSave }: { event: Event | null; onClose: 
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center modal-overlay p-4">
-      <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="bg-[#0f0f2a] border border-white/10 rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} className="rounded-lg p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}>
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-display font-bold text-white">{event ? 'Edit Event' : 'Add Event'}</h3>
-          <button onClick={onClose} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all"><X className="w-5 h-5" /></button>
+          <h3 className="text-lg font-display font-bold" style={{ color: 'var(--text-primary)' }}>{event ? 'Edit Event' : 'Add Event'}</h3>
+          <button onClick={onClose} className="p-2 rounded-md transition-all" style={{ color: 'var(--text-muted)' }}><X className="w-5 h-5" /></button>
         </div>
         <div className="space-y-4">
           <div className="form-group"><label className="label">Title *</label><input className="input-field" value={form.title || ''} onChange={e => setForm(p => ({ ...p, title: e.target.value }))} placeholder="Event title" /></div>
@@ -442,10 +457,10 @@ function TeamModal({ team, onClose, onSave }: { team?: Team; onClose: () => void
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center modal-overlay p-4">
-      <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="bg-[#0f0f2a] border border-white/10 rounded-2xl p-6 w-full max-w-md">
+      <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} className="rounded-lg p-6 w-full max-w-md" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}>
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-display font-bold text-white">{team ? 'Edit Team' : 'Add Team'}</h3>
-          <button onClick={onClose} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all"><X className="w-5 h-5" /></button>
+          <h3 className="text-lg font-display font-bold" style={{ color: 'var(--text-primary)' }}>{team ? 'Edit Team' : 'Add Team'}</h3>
+          <button onClick={onClose} className="p-2 rounded-md transition-all" style={{ color: 'var(--text-muted)' }}><X className="w-5 h-5" /></button>
         </div>
         <div className="space-y-4">
           <div className="form-group"><label className="label">Team Name *</label><input className="input-field" value={form.name || ''} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} placeholder="Team Alpha" /></div>

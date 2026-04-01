@@ -6,53 +6,74 @@ export default function Footer() {
   const { clubInfo } = useData()
 
   return (
-    <footer className="bg-[#080815] border-t border-white/5 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+    <footer className="mt-auto" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-subtle)' }}>
+      {/* Top accent line */}
+      <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, var(--brand), transparent)' }} />
+
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-16 lg:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-3 mb-4 group">
-              <div className="w-10 h-10 bg-gradient-to-br from-brand-500 to-accent-500 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/25">
-                <Code2 className="w-6 h-6 text-white" />
+            <Link to="/" className="flex items-center gap-3 mb-5 group">
+              <div
+                className="w-9 h-9 rounded-md flex items-center justify-center"
+                style={{ background: 'var(--brand)' }}
+              >
+                <Code2 className="w-5 h-5 text-white" />
               </div>
               <div>
-                <span className="font-display font-bold text-white text-xl leading-none block">DevNation</span>
-                <span className="text-xs text-slate-500 leading-none">{clubInfo.university}</span>
+                <span className="font-display font-bold text-xl leading-none block" style={{ color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
+                  DevNation
+                </span>
+                <span className="text-[10px] leading-none font-medium" style={{ color: 'var(--text-muted)', letterSpacing: '0.08em' }}>
+                  {clubInfo.university}
+                </span>
               </div>
             </Link>
-            <p className="text-slate-400 text-sm leading-relaxed max-w-xs mb-6">
+            <p className="text-sm leading-relaxed max-w-sm mb-8" style={{ color: 'var(--text-secondary)' }}>
               {clubInfo.tagline}. Building the next generation of tech leaders in Qatar.
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <a
                 href={clubInfo.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-white/5 hover:bg-gradient-to-br hover:from-purple-600 hover:to-pink-500 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300"
+                className="w-9 h-9 rounded-md flex items-center justify-center transition-all duration-300"
+                style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--text-muted)' }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#c13584'; e.currentTarget.style.color = '#fff' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'var(--text-muted)' }}
                 aria-label="Instagram"
               >
-                <Instagram className="w-5 h-5" />
+                <Instagram className="w-4 h-4" />
               </a>
               <a
                 href={clubInfo.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-white/5 hover:bg-blue-600 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300"
+                className="w-9 h-9 rounded-md flex items-center justify-center transition-all duration-300"
+                style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--text-muted)' }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#0a66c2'; e.currentTarget.style.color = '#fff' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'var(--text-muted)' }}
                 aria-label="LinkedIn"
               >
-                <Linkedin className="w-5 h-5" />
+                <Linkedin className="w-4 h-4" />
               </a>
               <a
                 href={`mailto:${clubInfo.email}`}
-                className="w-10 h-10 bg-white/5 hover:bg-brand-600 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300"
+                className="w-9 h-9 rounded-md flex items-center justify-center transition-all duration-300"
+                style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--text-muted)' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'var(--brand)'; e.currentTarget.style.color = '#fff' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'var(--text-muted)' }}
                 aria-label="Email"
               >
-                <Mail className="w-5 h-5" />
+                <Mail className="w-4 h-4" />
               </a>
             </div>
           </div>
 
           <div>
-            <h4 className="font-display font-semibold text-white mb-4">Quick Links</h4>
+            <h4 className="font-display font-semibold mb-5 text-sm" style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
+              Quick Links
+            </h4>
             <ul className="space-y-3">
               {[
                 { to: '/', label: 'Home' },
@@ -64,7 +85,10 @@ export default function Footer() {
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    className="text-slate-400 hover:text-brand-300 text-sm transition-colors duration-200"
+                    className="text-sm transition-colors duration-200"
+                    style={{ color: 'var(--text-muted)' }}
+                    onMouseEnter={e => e.currentTarget.style.color = 'var(--brand)'}
+                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
                   >
                     {link.label}
                   </Link>
@@ -74,38 +98,50 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display font-semibold text-white mb-4">Our Groups</h4>
-            <ul className="space-y-3 mb-6">
+            <h4 className="font-display font-semibold mb-5 text-sm" style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
+              Our Groups
+            </h4>
+            <ul className="space-y-3 mb-8">
               {['DSA', 'AI/ML', 'Web Development', 'App Development'].map(group => (
                 <li key={group}>
                   <Link
                     to="/members"
-                    className="text-slate-400 hover:text-brand-300 text-sm transition-colors duration-200"
+                    className="text-sm transition-colors duration-200"
+                    style={{ color: 'var(--text-muted)' }}
+                    onMouseEnter={e => e.currentTarget.style.color = 'var(--brand)'}
+                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
                   >
                     {group}
                   </Link>
                 </li>
               ))}
             </ul>
-            <div className="space-y-2">
-              <div className="flex items-start gap-2 text-slate-400 text-sm">
-                <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
+            <div className="space-y-2.5">
+              <div className="flex items-start gap-2 text-sm" style={{ color: 'var(--text-muted)' }}>
+                <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                 <span>Doha, Qatar</span>
               </div>
-              <div className="flex items-start gap-2 text-slate-400 text-sm">
-                <Mail className="w-4 h-4 mt-0.5 shrink-0" />
-                <a href={`mailto:${clubInfo.email}`} className="hover:text-brand-300 transition-colors">{clubInfo.email}</a>
+              <div className="flex items-start gap-2 text-sm" style={{ color: 'var(--text-muted)' }}>
+                <Mail className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                <a
+                  href={`mailto:${clubInfo.email}`}
+                  className="transition-colors"
+                  onMouseEnter={e => e.currentTarget.style.color = 'var(--brand)'}
+                  onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
+                >
+                  {clubInfo.email}
+                </a>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-slate-500 text-sm">
+        <div className="mt-16 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
             © {new Date().getFullYear()} UDST DevNation. All rights reserved.
           </p>
-          <p className="text-slate-600 text-sm flex items-center gap-1">
-            Built with <Heart className="w-3.5 h-3.5 text-red-500" /> by DevNation Members
+          <p className="text-xs flex items-center gap-1.5" style={{ color: 'var(--text-muted)' }}>
+            Built with <Heart className="w-3 h-3" style={{ color: 'var(--brand)' }} /> by DevNation Members
           </p>
         </div>
       </div>
