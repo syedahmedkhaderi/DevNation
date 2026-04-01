@@ -386,13 +386,30 @@ export default function MembersPage() {
   )
 }
 
+const enc = (s: string) => encodeURIComponent(s)
+
 const avatarStyles = [
-  { id: 'initials-orange', label: 'Initials', buildUrl: (name: string) => `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=e26a1b&textColor=ffffff` },
-  { id: 'initials-dark', label: 'Initials (dark)', buildUrl: (name: string) => `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=1a1a1a&textColor=e26a1b` },
-  { id: 'avataaars', label: 'Avatar', buildUrl: (name: string) => `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}` },
-  { id: 'lorelei', label: 'Lorelei', buildUrl: (name: string) => `https://api.dicebear.com/7.x/lorelei/svg?seed=${encodeURIComponent(name)}` },
-  { id: 'pixel-art', label: 'Pixel', buildUrl: (name: string) => `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(name)}` },
-  { id: 'thumbs', label: 'Thumbs', buildUrl: (name: string) => `https://api.dicebear.com/7.x/thumbs/svg?seed=${encodeURIComponent(name)}` },
+  { id: 'ini-orange',   label: 'Orange',    buildUrl: (n: string) => `https://api.dicebear.com/7.x/initials/svg?seed=${enc(n)}&backgroundColor=e26a1b&textColor=ffffff` },
+  { id: 'ini-charcoal', label: 'Charcoal',  buildUrl: (n: string) => `https://api.dicebear.com/7.x/initials/svg?seed=${enc(n)}&backgroundColor=1c1c1e&textColor=e26a1b` },
+  { id: 'ini-navy',     label: 'Navy',      buildUrl: (n: string) => `https://api.dicebear.com/7.x/initials/svg?seed=${enc(n)}&backgroundColor=1e3a5f&textColor=ffffff` },
+  { id: 'ini-slate',    label: 'Slate',     buildUrl: (n: string) => `https://api.dicebear.com/7.x/initials/svg?seed=${enc(n)}&backgroundColor=334155&textColor=ffffff` },
+  { id: 'ini-forest',   label: 'Forest',    buildUrl: (n: string) => `https://api.dicebear.com/7.x/initials/svg?seed=${enc(n)}&backgroundColor=1b4332&textColor=ffffff` },
+  { id: 'ini-burgundy', label: 'Burgundy',  buildUrl: (n: string) => `https://api.dicebear.com/7.x/initials/svg?seed=${enc(n)}&backgroundColor=6b1a1a&textColor=ffffff` },
+  { id: 'ini-teal',     label: 'Teal',      buildUrl: (n: string) => `https://api.dicebear.com/7.x/initials/svg?seed=${enc(n)}&backgroundColor=0d4f4f&textColor=ffffff` },
+  { id: 'ini-purple',   label: 'Purple',    buildUrl: (n: string) => `https://api.dicebear.com/7.x/initials/svg?seed=${enc(n)}&backgroundColor=3b1f6b&textColor=ffffff` },
+  { id: 'rings-a',      label: 'Rings A',   buildUrl: (n: string) => `https://api.dicebear.com/7.x/rings/svg?seed=${enc(n)}` },
+  { id: 'rings-b',      label: 'Rings B',   buildUrl: (n: string) => `https://api.dicebear.com/7.x/rings/svg?seed=${enc(n + '_v2')}` },
+  { id: 'rings-c',      label: 'Rings C',   buildUrl: (n: string) => `https://api.dicebear.com/7.x/rings/svg?seed=${enc(n + '_v3')}` },
+  { id: 'rings-d',      label: 'Rings D',   buildUrl: (n: string) => `https://api.dicebear.com/7.x/rings/svg?seed=${enc(n + '_v4')}` },
+  { id: 'shapes-a',     label: 'Shapes A',  buildUrl: (n: string) => `https://api.dicebear.com/7.x/shapes/svg?seed=${enc(n)}` },
+  { id: 'shapes-b',     label: 'Shapes B',  buildUrl: (n: string) => `https://api.dicebear.com/7.x/shapes/svg?seed=${enc(n + '_v2')}` },
+  { id: 'shapes-c',     label: 'Shapes C',  buildUrl: (n: string) => `https://api.dicebear.com/7.x/shapes/svg?seed=${enc(n + '_v3')}` },
+  { id: 'shapes-d',     label: 'Shapes D',  buildUrl: (n: string) => `https://api.dicebear.com/7.x/shapes/svg?seed=${enc(n + '_v4')}` },
+  { id: 'identicon-a',  label: 'Grid A',    buildUrl: (n: string) => `https://api.dicebear.com/7.x/identicon/svg?seed=${enc(n)}` },
+  { id: 'identicon-b',  label: 'Grid B',    buildUrl: (n: string) => `https://api.dicebear.com/7.x/identicon/svg?seed=${enc(n + '_v2')}` },
+  { id: 'identicon-c',  label: 'Grid C',    buildUrl: (n: string) => `https://api.dicebear.com/7.x/identicon/svg?seed=${enc(n + '_v3')}` },
+  { id: 'bottts-a',     label: 'Tech A',    buildUrl: (n: string) => `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${enc(n)}` },
+  { id: 'bottts-b',     label: 'Tech B',    buildUrl: (n: string) => `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${enc(n + '_v2')}` },
 ]
 
 function AvatarPicker({ name, value, onChange }: { name: string; value: string; onChange: (url: string) => void }) {
@@ -407,7 +424,8 @@ function AvatarPicker({ name, value, onChange }: { name: string; value: string; 
       <label className="label mb-2 block">Profile Photo</label>
 
       {/* Avatar grid */}
-      <div className="grid grid-cols-6 gap-2 mb-3">
+      <div className="grid grid-cols-5 gap-2 mb-3 max-h-64 overflow-y-auto pr-1"
+        style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(226,106,27,0.3) transparent' }}>
         {avatarStyles.map(style => {
           const url = style.buildUrl(seedName)
           const isSelected = value === url

@@ -178,8 +178,13 @@ export default function HomePage() {
       </section>
 
       {/* ── Vision & Mission ──────────────────────────────────── */}
-      <section className="py-32 relative" style={{ background: 'var(--bg-secondary)' }}>
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+      <section className="py-32 relative overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
+        {/* Decorative background letters */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+          <span className="font-display font-black uppercase" style={{ fontSize: '30vw', color: 'rgba(255,255,255,0.012)', letterSpacing: '-0.06em', lineHeight: 1 }}>DN</span>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -187,53 +192,59 @@ export default function HomePage() {
             transition={{ duration: 0.6 }}
             className="flex items-center gap-4 mb-20"
           >
-            <span className="text-[10px] font-bold uppercase tracking-[0.25em] font-mono" style={{ color: 'var(--text-muted)' }}>Identity</span>
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] font-mono"
+              style={{ background: 'rgba(226,106,27,0.1)', color: 'var(--brand)', border: '1px solid rgba(226,106,27,0.18)' }}>
+              <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: 'var(--brand)' }} />
+              Who We Are
+            </span>
             <div className="flex-1 h-px" style={{ background: 'var(--border-subtle)' }} />
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-0 rounded-lg overflow-hidden" style={{ border: '1px solid var(--border-subtle)' }}>
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Vision card */}
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="p-10 lg:p-14 relative overflow-hidden transition-all duration-300 group"
-              style={{ borderRight: '1px solid var(--border-subtle)' }}
-              onMouseEnter={e => e.currentTarget.style.background = 'rgba(226,106,27,0.02)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+              className="relative rounded-2xl overflow-hidden group"
+              style={{ background: 'linear-gradient(135deg, rgba(226,106,27,0.1) 0%, rgba(226,106,27,0.02) 60%, transparent 100%)', border: '1px solid rgba(226,106,27,0.2)' }}
             >
-              <div className="absolute -top-20 -right-20 w-56 h-56 rounded-full blur-[80px] pointer-events-none transition-opacity duration-500 opacity-0 group-hover:opacity-100" style={{ background: 'rgba(226,106,27,0.06)' }} />
-              <div className="relative">
-                <div className="flex items-center gap-3 mb-10">
-                  <div className="w-7 h-7 rounded-md flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(226,106,27,0.1)', border: '1px solid rgba(226,106,27,0.15)' }}>
-                    <Star className="w-3.5 h-3.5" style={{ color: 'var(--brand)' }} />
-                  </div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] font-mono" style={{ color: 'var(--brand)' }}>Vision</span>
-                </div>
-                <p className="text-lg font-display font-semibold leading-relaxed" style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
+              {/* Top accent stripe */}
+              <div className="h-0.5" style={{ background: 'linear-gradient(90deg, var(--brand), rgba(226,106,27,0.2), transparent)' }} />
+              {/* Decorative number */}
+              <div className="absolute bottom-2 right-4 font-display font-black select-none leading-none" style={{ fontSize: '9rem', color: 'rgba(226,106,27,0.07)' }}>01</div>
+              {/* Ambient glow on hover */}
+              <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full blur-[100px] pointer-events-none transition-opacity duration-700 opacity-0 group-hover:opacity-100" style={{ background: 'rgba(226,106,27,0.08)' }} />
+              <div className="relative p-10 lg:p-14">
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-8 font-mono"
+                  style={{ background: 'rgba(226,106,27,0.12)', color: 'var(--brand)', border: '1px solid rgba(226,106,27,0.22)' }}>
+                  <Star className="w-3 h-3" /> Vision
+                </span>
+                <p className="text-2xl lg:text-3xl font-display font-bold leading-snug" style={{ color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
                   {clubInfo.vision}
                 </p>
               </div>
             </motion.div>
 
+            {/* Mission card — offset down on large screens */}
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="p-10 lg:p-14 relative overflow-hidden transition-all duration-300 group"
-              onMouseEnter={e => e.currentTarget.style.background = 'rgba(176,125,79,0.02)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+              transition={{ duration: 0.7, delay: 0.25 }}
+              className="relative rounded-2xl overflow-hidden group lg:mt-14"
+              style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)' }}
             >
-              <div className="absolute -top-20 -right-20 w-56 h-56 rounded-full blur-[80px] pointer-events-none transition-opacity duration-500 opacity-0 group-hover:opacity-100" style={{ background: 'rgba(176,125,79,0.06)' }} />
-              <div className="relative">
-                <div className="flex items-center gap-3 mb-10">
-                  <div className="w-7 h-7 rounded-md flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(176,125,79,0.1)', border: '1px solid rgba(176,125,79,0.15)' }}>
-                    <Code2 className="w-3.5 h-3.5" style={{ color: 'var(--accent)' }} />
-                  </div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] font-mono" style={{ color: 'var(--accent)' }}>Mission</span>
-                </div>
-                <p className="text-lg font-display font-semibold leading-relaxed" style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
+              <div className="h-0.5" style={{ background: 'linear-gradient(90deg, var(--accent), rgba(176,125,79,0.2), transparent)' }} />
+              <div className="absolute bottom-2 right-4 font-display font-black select-none leading-none" style={{ fontSize: '9rem', color: 'rgba(255,255,255,0.025)' }}>02</div>
+              <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full blur-[100px] pointer-events-none transition-opacity duration-700 opacity-0 group-hover:opacity-100" style={{ background: 'rgba(176,125,79,0.06)' }} />
+              <div className="relative p-10 lg:p-14">
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-8 font-mono"
+                  style={{ background: 'rgba(176,125,79,0.1)', color: 'var(--accent)', border: '1px solid rgba(176,125,79,0.2)' }}>
+                  <Code2 className="w-3 h-3" /> Mission
+                </span>
+                <p className="text-xl lg:text-2xl font-display font-semibold leading-relaxed" style={{ color: 'var(--text-secondary)', letterSpacing: '-0.02em' }}>
                   {clubInfo.mission}
                 </p>
               </div>
@@ -253,7 +264,11 @@ export default function HomePage() {
             className="mb-20"
           >
             <div className="flex items-center gap-4 mb-8">
-              <span className="text-[10px] font-bold uppercase tracking-[0.25em] font-mono" style={{ color: 'var(--text-muted)' }}>Specializations</span>
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] font-mono"
+                style={{ background: 'rgba(226,106,27,0.1)', color: 'var(--brand)', border: '1px solid rgba(226,106,27,0.18)' }}>
+                <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: 'var(--brand)' }} />
+                Our Communities
+              </span>
               <div className="flex-1 h-px" style={{ background: 'var(--border-subtle)' }} />
             </div>
             <h2 className="text-4xl lg:text-6xl font-display font-bold leading-tight" style={{ color: 'var(--text-primary)', letterSpacing: '-0.04em' }}>
@@ -328,8 +343,11 @@ export default function HomePage() {
             <div className="flex items-end justify-between mb-16">
               <div>
                 <div className="flex items-center gap-4 mb-5">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] font-mono" style={{ color: 'var(--text-muted)' }}>On the Horizon</span>
-                  <div className="h-px w-16" style={{ background: 'var(--border-subtle)' }} />
+                  <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] font-mono"
+                    style={{ background: 'rgba(226,106,27,0.1)', color: 'var(--brand)', border: '1px solid rgba(226,106,27,0.18)' }}>
+                    <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: 'var(--brand)' }} />
+                    What's Coming
+                  </span>
                 </div>
                 <h2 className="text-4xl font-display font-bold" style={{ color: 'var(--text-primary)', letterSpacing: '-0.04em' }}>Upcoming Events</h2>
               </div>
