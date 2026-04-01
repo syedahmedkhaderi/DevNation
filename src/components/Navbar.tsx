@@ -40,15 +40,15 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-2 group">
             <div
-              className="w-8 h-8 rounded-md flex items-center justify-center transition-all duration-300 group-hover:shadow-lg"
+              className="w-10 h-10 rounded-md flex items-center justify-center transition-all duration-300 group-hover:shadow-lg shrink-0"
               style={{
                 background: 'var(--brand)',
                 boxShadow: '0 2px 8px rgba(226,106,27,0.2)',
               }}
             >
-              <Code2 className="w-4 h-4 text-white" />
+              <Code2 className="w-5 h-5 text-white" />
             </div>
             <div>
               <span className="font-display font-bold text-lg leading-none block" style={{ color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
