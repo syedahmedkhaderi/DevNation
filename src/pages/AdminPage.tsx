@@ -14,8 +14,9 @@ export default function AdminPage() {
   const [editingInfo, setEditingInfo] = useState(false)
   const [infoForm, setInfoForm] = useState(clubInfo)
 
-  const handleLogin = () => {
-    if (login(password)) {
+  const handleLogin = async () => {
+    const success = await login(password.trim())
+    if (success) {
       toast.success('Welcome back, Admin!')
       setPassword('')
     } else {
