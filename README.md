@@ -52,14 +52,15 @@ The admin area is available at `/admin`.
 
 ## Data Persistence
 
-All editable content is stored locally in the browser using `localStorage`.
+All editable content is stored locally in the browser using `localStorage`, and admin edits are also written back to the source defaults file while running the development server.
 
 ### Persistence behavior
 
 - Admin changes persist across page reloads in the same browser profile.
-- Changes are not stored on a backend server because this app has no server-side database.
-- If you clear browser storage, switch browsers, or use a different browser profile, the app will revert to default data.
-- Using the admin reset buttons returns the selected section to the default initial seed data.
+- When running `npm run dev`, the app also saves updates into `src/data/defaultData.json`.
+- `src/data/defaults.ts` now loads its initial defaults from that JSON file, so code-level defaults can be updated too.
+- If you clear browser storage, switch browsers, or use a different browser/profile, the app will fall back to the latest saved defaults from `src/data/defaultData.json`.
+- Using the admin reset buttons returns the selected section to the default initial seed data currently stored in code.
 
 ### LocalStorage keys used
 
