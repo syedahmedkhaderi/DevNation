@@ -1,163 +1,188 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight, Code2, Brain, Globe, Smartphone, Users, Calendar, BookOpen, Star, Instagram, Linkedin, ChevronRight } from 'lucide-react'
+import { ArrowRight, Code2, Brain, Globe, Smartphone, Calendar, Star, Instagram, Linkedin, ChevronRight, Terminal } from 'lucide-react'
 import { useData } from '../context/DataContext'
 
 const groups = [
-  { name: 'Data Structures & Algorithms', abbr: 'DSA', icon: Code2, color: 'from-green-500 to-emerald-600', description: 'Master algorithmic thinking, competitive programming, and technical interview preparation.' },
-  { name: 'AI / Machine Learning', abbr: 'AI/ML', icon: Brain, color: 'from-purple-500 to-violet-600', description: 'Explore machine learning, deep learning, NLP, and real-world AI applications.' },
-  { name: 'Web Development', abbr: 'Web Dev', icon: Globe, color: 'from-blue-500 to-cyan-600', description: 'Build modern web experiences with React, TypeScript, Node.js, and more.' },
-  { name: 'App Development', abbr: 'App Dev', icon: Smartphone, color: 'from-orange-500 to-amber-600', description: 'Create cross-platform mobile applications with Flutter and React Native.' },
+  { name: 'Data Structures & Algorithms', abbr: 'DSA', icon: Code2, accent: '#10b981', num: '01', description: 'Algorithmic thinking, competitive programming, and interview prep.' },
+  { name: 'AI / Machine Learning', abbr: 'AI/ML', icon: Brain, accent: '#8b5cf6', num: '02', description: 'Deep learning, NLP, computer vision, and real-world AI systems.' },
+  { name: 'Web Development', abbr: 'Web Dev', icon: Globe, accent: '#0ea5e9', num: '03', description: 'React, TypeScript, Node.js, and full-stack modern experiences.' },
+  { name: 'App Development', abbr: 'App Dev', icon: Smartphone, accent: '#f97316', num: '04', description: 'Cross-platform mobile apps with Flutter and React Native.' },
 ]
 
 const stats = [
-  { label: 'Active Members', value: '150+' },
-  { label: 'Events Hosted', value: '40+' },
-  { label: 'Projects Built', value: '25+' },
-  { label: 'Industry Partners', value: '10+' },
+  { label: 'Active Members', value: '150+', suffix: '' },
+  { label: 'Events Hosted', value: '40+', suffix: '' },
+  { label: 'Projects Built', value: '25+', suffix: '' },
+  { label: 'Industry Partners', value: '10+', suffix: '' },
 ]
 
-const fadeUp = {
-  initial: { opacity: 0, y: 30 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 },
-}
-
 export default function HomePage() {
-  const { clubInfo, events, projects } = useData()
+  const { clubInfo, events } = useData()
   const upcomingEvents = events.filter(e => e.isOpen).slice(0, 3)
-  const featuredProjects = projects.filter(p => p.featured).slice(0, 3)
 
   return (
     <div className="relative overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-grid overflow-hidden">
-        <div className="absolute inset-0 bg-glow pointer-events-none" />
-        <div className="absolute top-20 right-20 w-72 h-72 bg-brand-600/10 rounded-full blur-3xl animate-pulse-slow" />
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-accent-500/8 rounded-full blur-3xl animate-pulse-slow" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 bg-brand-500/10 border border-brand-500/20 rounded-full px-4 py-2 text-brand-300 text-sm font-medium mb-8"
-          >
-            <Star className="w-4 h-4" />
-            UDST Official Technology Club
-          </motion.div>
+      {/* ── Hero ─────────────────────────────────────────────── */}
+      <section className="relative min-h-screen flex flex-col justify-center bg-dot overflow-hidden">
+        {/* Ambient glows */}
+        <div className="absolute top-1/4 left-1/3 w-[600px] h-[600px] rounded-full bg-brand-600/6 blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full bg-accent-500/5 blur-[100px] pointer-events-none" />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-5xl sm:text-6xl lg:text-8xl font-display font-bold text-white mb-6 leading-tight"
-          >
-            UDST{' '}
-            <span className="text-gradient">DevNation</span>
-          </motion.h1>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-xl sm:text-2xl text-slate-400 mb-4 font-medium max-w-3xl mx-auto"
-          >
-            {clubInfo.tagline}
-          </motion.p>
+            {/* Left: text */}
+            <div>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center gap-2 mb-8"
+              >
+                <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">UDST Official Technology Club</span>
+              </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-base text-slate-500 mb-12 max-w-2xl mx-auto leading-relaxed"
-          >
-            The official developer community at the University of Doha for Science and Technology — where code meets creativity and innovation.
-          </motion.p>
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+                className="font-display font-bold text-white leading-[0.95] mb-6"
+                style={{ fontSize: 'clamp(3rem, 7vw, 6rem)' }}
+              >
+                UDST<br />
+                <span className="text-gradient">DevNation</span>
+              </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="flex flex-wrap items-center justify-center gap-4"
-          >
-            <Link to="/events" className="btn-primary flex items-center gap-2 text-base">
-              Explore Events <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link to="/members" className="btn-secondary flex items-center gap-2 text-base">
-              Meet the Team
-            </Link>
-            <a href={clubInfo.instagram} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2 text-slate-400 hover:text-pink-400 transition-colors text-sm font-medium">
-              <Instagram className="w-5 h-5" />
-              Follow Us
-            </a>
-          </motion.div>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.25 }}
+                className="text-slate-400 text-lg leading-relaxed mb-10 max-w-md"
+              >
+                {clubInfo.tagline} — the official developer community of the University of Doha for Science and Technology.
+              </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.6 }}
-            className="mt-20 grid grid-cols-2 sm:grid-cols-4 gap-8"
-          >
-            {stats.map(stat => (
-              <div key={stat.label} className="text-center">
-                <div className="text-3xl sm:text-4xl font-display font-bold text-gradient mb-1">{stat.value}</div>
-                <div className="text-slate-400 text-sm">{stat.label}</div>
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="flex flex-wrap gap-3 mb-12"
+              >
+                <Link to="/events" className="btn-primary flex items-center gap-2">
+                  Explore Events <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link to="/members" className="btn-secondary flex items-center gap-2">
+                  Meet the Team
+                </Link>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="flex items-center gap-6"
+              >
+                <a href={clubInfo.instagram} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-slate-600 hover:text-pink-400 transition-colors text-sm font-medium group">
+                  <Instagram className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  Instagram
+                </a>
+                <a href={clubInfo.linkedin} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-slate-600 hover:text-blue-400 transition-colors text-sm font-medium group">
+                  <Linkedin className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  LinkedIn
+                </a>
+              </motion.div>
+            </div>
+
+            {/* Right: stats card */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="lg:justify-self-end w-full max-w-sm"
+            >
+              <div className="rounded-2xl border border-white/8 p-6 space-y-1" style={{ background: 'rgba(8,8,28,0.7)', backdropFilter: 'blur(24px)' }}>
+                {/* Fake terminal header */}
+                <div className="flex items-center gap-2 pb-4 border-b border-white/6 mb-4">
+                  <div className="flex gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500/60" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
+                  </div>
+                  <span className="text-slate-600 text-xs font-mono ml-2">devnation_stats.json</span>
+                </div>
+                {stats.map((stat, i) => (
+                  <div key={stat.label} className="flex items-center justify-between py-2.5 border-b border-white/4 last:border-0">
+                    <span className="text-slate-500 text-sm font-mono">"{stat.label}"</span>
+                    <span className="text-brand-300 font-display font-bold text-lg">"{stat.value}"</span>
+                  </div>
+                ))}
+                <div className="pt-3 flex items-center gap-2 text-slate-700 text-xs font-mono">
+                  <Terminal className="w-3 h-3" />
+                  <span className="animate-blink">|</span>
+                </div>
               </div>
-            ))}
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Vision & Mission Section */}
-      <section className="py-24 bg-[#080815]">
+      {/* ── Vision & Mission ──────────────────────────────────── */}
+      <section className="py-28 relative" style={{ background: '#08081c' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            className="flex items-center gap-4 mb-16"
           >
-            <span className="tag bg-brand-500/10 text-brand-300 border border-brand-500/20 mb-4">Who We Are</span>
-            <h2 className="section-heading">Our Vision & Mission</h2>
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">Who We Are</span>
+            <div className="flex-1 h-px bg-white/5" />
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-0 border border-white/8 rounded-2xl overflow-hidden">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="glass-card rounded-2xl p-8 relative overflow-hidden"
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="p-10 border-b lg:border-b-0 lg:border-r border-white/8 relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-48 h-48 bg-brand-500/5 rounded-full -mr-16 -mt-16 blur-2xl" />
+              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-brand-500/6 blur-3xl" />
               <div className="relative">
-                <div className="w-12 h-12 bg-gradient-to-br from-brand-500 to-brand-700 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-brand-500/25">
-                  <Star className="w-6 h-6 text-white" />
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-8 h-8 rounded-lg bg-brand-500/15 border border-brand-500/20 flex items-center justify-center">
+                    <Star className="w-4 h-4 text-brand-400" />
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-widest text-brand-400">Vision</span>
                 </div>
-                <h3 className="text-2xl font-display font-bold text-white mb-4">Our Vision</h3>
-                <p className="text-slate-300 leading-relaxed text-base">
+                <p className="text-white text-xl font-display font-semibold leading-relaxed">
                   {clubInfo.vision}
                 </p>
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="glass-card rounded-2xl p-8 relative overflow-hidden"
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="p-10 relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-48 h-48 bg-accent-500/5 rounded-full -mr-16 -mt-16 blur-2xl" />
+              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-accent-500/5 blur-3xl" />
               <div className="relative">
-                <div className="w-12 h-12 bg-gradient-to-br from-accent-500 to-accent-700 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-accent-500/25">
-                  <Code2 className="w-6 h-6 text-white" />
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-8 h-8 rounded-lg bg-accent-500/15 border border-accent-500/20 flex items-center justify-center">
+                    <Code2 className="w-4 h-4 text-accent-400" />
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-widest text-accent-400">Mission</span>
                 </div>
-                <h3 className="text-2xl font-display font-bold text-white mb-4">Our Mission</h3>
-                <p className="text-slate-300 leading-relaxed text-base">
+                <p className="text-slate-300 text-base leading-relaxed">
                   {clubInfo.mission}
                 </p>
               </div>
@@ -166,41 +191,64 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Groups Section */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ── 4 Groups ─────────────────────────────────────────── */}
+      <section className="py-28 relative overflow-hidden">
+        <div className="absolute inset-0 bg-dot opacity-50 pointer-events-none" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            className="mb-16"
           >
-            <span className="tag bg-purple-500/10 text-purple-300 border border-purple-500/20 mb-4">Our Communities</span>
-            <h2 className="section-heading">4 Specialized Groups</h2>
-            <p className="section-subheading mx-auto">
-              Deep-dive into your area of passion with peers who share your curiosity
-            </p>
+            <div className="flex items-center gap-4 mb-6">
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">Our Communities</span>
+              <div className="flex-1 h-px bg-white/5" />
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-display font-bold text-white leading-tight">
+              4 Specialized<br /><span className="text-gradient">Groups</span>
+            </h2>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {groups.map((group, i) => (
+          <div className="grid sm:grid-cols-2 gap-4">
+            {groups.map((g, i) => (
               <motion.div
-                key={group.abbr}
-                initial={{ opacity: 0, y: 30 }}
+                key={g.abbr}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="glass-card rounded-2xl p-6 group cursor-pointer"
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="group relative rounded-xl border border-white/6 p-7 cursor-pointer overflow-hidden transition-all duration-300 hover:border-white/12"
+                style={{ background: 'rgba(8,8,24,0.7)' }}
               >
-                <div className={`w-12 h-12 bg-gradient-to-br ${group.color} rounded-xl flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                  <group.icon className="w-6 h-6 text-white" />
+                {/* Accent sweep on hover */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-xl"
+                  style={{ background: `radial-gradient(circle at 0% 100%, ${g.accent}10 0%, transparent 60%)` }}
+                />
+
+                <div className="flex items-start justify-between mb-6">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                    style={{ background: `${g.accent}15`, border: `1px solid ${g.accent}25` }}
+                  >
+                    <g.icon className="w-5 h-5" style={{ color: g.accent }} />
+                  </div>
+                  <span className="font-mono text-3xl font-black text-white/5 group-hover:text-white/8 transition-colors">{g.num}</span>
                 </div>
-                <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">{group.abbr}</div>
-                <h3 className="text-base font-display font-bold text-white mb-3 leading-snug">{group.name}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{group.description}</p>
-                <Link to="/members" className="inline-flex items-center gap-1 text-brand-400 hover:text-brand-300 text-sm font-medium mt-4 transition-colors">
-                  See Members <ChevronRight className="w-4 h-4" />
+
+                <div className="mb-1 text-xs font-bold uppercase tracking-widest" style={{ color: g.accent }}>{g.abbr}</div>
+                <h3 className="font-display font-bold text-white text-lg mb-2 leading-snug">{g.name}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed mb-5">{g.description}</p>
+
+                <Link
+                  to="/members"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold transition-colors duration-200"
+                  style={{ color: `${g.accent}cc` }}
+                  onMouseEnter={e => (e.currentTarget.style.color = g.accent)}
+                  onMouseLeave={e => (e.currentTarget.style.color = `${g.accent}cc`)}
+                >
+                  See Members <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
               </motion.div>
             ))}
@@ -208,42 +256,52 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Upcoming Events Preview */}
+      {/* ── Upcoming Events ───────────────────────────────────── */}
       {upcomingEvents.length > 0 && (
-        <section className="py-24 bg-[#080815]">
+        <section className="py-28" style={{ background: '#08081c' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-end justify-between mb-12">
+            <div className="flex items-end justify-between mb-14">
               <div>
-                <span className="tag bg-green-500/10 text-green-300 border border-green-500/20 mb-4 block w-fit">Upcoming</span>
-                <h2 className="section-heading mb-0">Upcoming Events</h2>
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">What's Coming</span>
+                  <div className="h-px w-16 bg-white/5" />
+                </div>
+                <h2 className="text-4xl font-display font-bold text-white">Upcoming Events</h2>
               </div>
-              <Link to="/events" className="flex items-center gap-2 text-brand-300 hover:text-brand-200 font-medium transition-colors text-sm">
-                View All <ArrowRight className="w-4 h-4" />
+              <Link to="/events" className="flex items-center gap-1.5 text-brand-400 hover:text-brand-300 font-medium text-sm transition-colors group">
+                View All <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {upcomingEvents.map((event, i) => (
                 <motion.div
                   key={event.id}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="glass-card rounded-2xl overflow-hidden"
+                  className="group rounded-xl border border-white/6 overflow-hidden hover:border-white/12 transition-all duration-300"
+                  style={{ background: 'rgba(8,8,24,0.8)' }}
                 >
-                  <div className="h-40 overflow-hidden">
-                    <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div className="h-44 overflow-hidden">
+                    <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   </div>
                   <div className="p-5">
-                    <span className="tag bg-green-500/10 text-green-300 text-xs mb-3">{event.category}</span>
-                    <h3 className="font-display font-bold text-white text-base mb-2 leading-snug">{event.title}</h3>
-                    <div className="flex items-center gap-1 text-slate-400 text-xs mb-3">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {new Date(event.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="tag bg-emerald-500/10 text-emerald-400 text-xs">{event.category}</span>
+                      <div className="w-1 h-1 rounded-full bg-white/10" />
+                      <span className="text-slate-600 text-xs flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      </span>
                     </div>
-                    <Link to="/events" className="btn-primary btn-sm flex items-center gap-2 w-fit text-xs mt-3">
-                      View Details <ArrowRight className="w-3.5 h-3.5" />
+                    <h3 className="font-display font-bold text-white text-base mb-3 leading-snug">{event.title}</h3>
+                    <Link
+                      to="/events"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-400 hover:text-brand-300 transition-colors group/link"
+                    >
+                      View Details <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                     </Link>
                   </div>
                 </motion.div>
@@ -253,93 +311,49 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Featured Projects Preview */}
-      {featuredProjects.length > 0 && (
-        <section className="py-24">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-end justify-between mb-12">
-              <div>
-                <span className="tag bg-blue-500/10 text-blue-300 border border-blue-500/20 mb-4 block w-fit">Showcase</span>
-                <h2 className="section-heading mb-0">Featured Projects</h2>
-              </div>
-              <Link to="/projects" className="flex items-center gap-2 text-brand-300 hover:text-brand-200 font-medium transition-colors text-sm">
-                View All <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredProjects.map((project, i) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="glass-card rounded-2xl overflow-hidden"
-                >
-                  <div className="h-40 overflow-hidden">
-                    <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
-                  </div>
-                  <div className="p-5">
-                    <span className={`tag text-xs mb-3 ${project.status === 'active' ? 'bg-green-500/10 text-green-300' : 'bg-slate-500/10 text-slate-400'}`}>{project.status}</span>
-                    <h3 className="font-display font-bold text-white text-base mb-2">{project.title}</h3>
-                    <p className="text-slate-400 text-xs leading-relaxed mb-3 line-clamp-2">{project.description}</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {project.techStack.slice(0, 3).map(tech => (
-                        <span key={tech} className="tag bg-brand-500/10 text-brand-300 text-xs">{tech}</span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* CTA Section */}
-      <section className="py-24 bg-[#080815]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ── CTA ──────────────────────────────────────────────── */}
+      <section className="py-28 relative overflow-hidden">
+        <div className="absolute inset-0 bg-dot opacity-40 pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative glass-card rounded-3xl p-12 text-center overflow-hidden"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-600/10 to-accent-500/10" />
-            <div className="absolute top-0 right-0 w-96 h-96 bg-brand-500/10 rounded-full -mr-32 -mt-32 blur-3xl" />
-            <div className="relative">
-              <h2 className="text-3xl sm:text-4xl font-display font-bold text-white mb-4">
-                Join the DevNation Community
-              </h2>
-              <p className="text-slate-400 text-lg mb-8 max-w-2xl mx-auto">
-                Whether you're a beginner or an expert, there's a place for you in DevNation. Start building, learning, and connecting today.
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-4">
-                <a
-                  href={clubInfo.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity"
-                >
-                  <Instagram className="w-5 h-5" />
-                  Follow on Instagram
-                </a>
-                <a
-                  href={clubInfo.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 bg-blue-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-blue-500 transition-colors"
-                >
-                  <Linkedin className="w-5 h-5" />
-                  Connect on LinkedIn
-                </a>
-              </div>
+            <p className="text-[10px] font-black uppercase tracking-[0.35em] text-slate-600 mb-6">Join Us</p>
+            <h2 className="text-4xl sm:text-5xl font-display font-bold text-white mb-5 leading-tight">
+              Become Part of<br /><span className="text-gradient">DevNation</span>
+            </h2>
+            <p className="text-slate-500 text-lg mb-10 max-w-lg mx-auto leading-relaxed">
+              Whether you're just starting or already shipping products — there's a group for you. Build, learn, connect.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <a
+                href={clubInfo.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 font-semibold px-6 py-3 rounded-xl text-white transition-all duration-200 hover:opacity-90 active:scale-95"
+                style={{ background: 'linear-gradient(135deg, #7c3aed, #db2777)' }}
+              >
+                <Instagram className="w-4 h-4" />
+                Follow on Instagram
+              </a>
+              <a
+                href={clubInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 font-semibold px-6 py-3 rounded-xl text-white bg-[#0a66c2] hover:bg-[#0956a8] transition-all duration-200 active:scale-95"
+              >
+                <Linkedin className="w-4 h-4" />
+                Connect on LinkedIn
+              </a>
             </div>
           </motion.div>
         </div>
       </section>
+
     </div>
   )
 }
